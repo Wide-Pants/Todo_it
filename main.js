@@ -2,7 +2,9 @@ const hide_button = document.getElementById('fade-in');
 const seek_button = document.getElementById('fade-out');
 const lnb = document.getElementById('left-menu');
 const top_menu = document.getElementById('top-menu');
-const id= document.getElementById('Identifier')
+const id= document.getElementById('Identifier');
+const addbutton= document.getElementsByClassName(`addlist`);
+const list = document.getElementById(`lists`);
 
 hide_button.addEventListener("mouseover",()=>{
     hide_button.style.color="white";
@@ -48,3 +50,10 @@ function find_menu(){
     lnb.style.display="flex";
     seek_button.style.display="none";
 }
+addbutton[0].addEventListener(`click`, ()=>{
+    new_add_bt= document.createElement(`div`);
+    new_add_bt.setAttribute(`class`, `todo_list`);
+    new_add_bt.innerText = `+ 리스트를 추가하세요.`
+    list.append(new_add_bt)
+    console.log("dd")
+})

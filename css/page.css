@@ -34,3 +34,56 @@
     line-height: 16px;
     width: 534px;
 }
+#lists{
+    grid-column: 2;
+    grid-row: 4;
+    margin-left: 10px;
+    margin-top: 20px;
+}
+#lists *{
+    align-items: center;
+    vertical-align: middle;
+}
+.todo_list{
+    margin-bottom: 10px;
+}
+#lists input + .ch_button {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	border: 2px solid #bcbcbc;
+	cursor: pointer;
+}
+#lists input:checked + .ch_button {
+    background-color: #ffc1c1;
+    border: 2px solid #ffc1c1;
+}
+#lists input{
+    display: none;
+}
+#lists #list_txt{
+    margin-left: 5px;
+    line-height: 15px;
+    cursor: pointer;
+}
+.can_mov_bt{
+    display: inline-block;
+    width: 8px;
+	height: 19px;
+    margin-right: 2px;
+    background-color: #666666;
+    cursor: move;
+}
+.inv{
+    display: none;
+}
+#addlist{
+    padding-left: 6px;
+    cursor: pointer;
+}
+#addlist:hover{
+    opacity: 100%;
+    background-color: #666666;
+    color: white;
+    border-radius: 5px;
+}
