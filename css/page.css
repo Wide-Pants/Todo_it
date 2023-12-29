@@ -40,26 +40,23 @@
     margin-left: 10px;
     margin-top: 20px;
 }
-#lists *{
-    align-items: center;
+#lists #todo_list *{
     vertical-align: middle;
 }
-.todo_list{
+#todo_list li{
+    list-style: none;
     margin-bottom: 10px;
 }
-#lists input + .ch_button {
+#lists .ch_button {
 	display: inline-block;
-	width: 15px;
-	height: 15px;
-	border: 2px solid #bcbcbc;
+	width: 17px;
+	height: 17px;
+	border: 1.5px solid #bcbcbc;
 	cursor: pointer;
 }
 #lists input:checked + .ch_button {
     background-color: #ffc1c1;
-    border: 2px solid #ffc1c1;
-}
-#lists input{
-    display: none;
+    border: 1.5px solid #ffc1c1;
 }
 #lists #list_txt{
     margin-left: 5px;
@@ -69,7 +66,7 @@
 .can_mov_bt{
     display: inline-block;
     width: 8px;
-	height: 19px;
+	height: 15px;
     margin-right: 2px;
     background-color: #666666;
     cursor: move;
