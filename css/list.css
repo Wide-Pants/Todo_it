@@ -23,21 +23,18 @@
     background-color: #ffc1c1;
     border: 1px solid #ffc1c1;
 }
-#lists #list_txt{
+#lists .list_txt{
     display: inline-block;
     margin-left: 5px;
     cursor: pointer;
     min-height: 20px;
     padding: 0px 2.5px;
 }
-#lists #list_txt *{
+#lists .list_txt *{
     font-family: inter;
     white-space: pre-wrap;
     display: inline-block;
     min-width: 20px;
-}
-#lists #list_txt *:hover{
-    background-color: #EEEEEE;
 }
 .can_mov_bt{
     vertical-align: center;
