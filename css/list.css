@@ -6,7 +6,7 @@
     margin-top: 20px;
 }
 #lists #todo_list *{
-    vertical-align: top;
+    vertical-align: middle;
 }
 #todo_list li{
     list-style: none;
@@ -27,14 +27,14 @@
     display: inline-block;
     margin-left: 5px;
     cursor: pointer;
-    min-height: 20px;
+    min-height: 22px;
     padding: 0px 2.5px;
 }
 #lists .list_txt *{
     font-family: inter;
     white-space: pre-wrap;
     display: inline-block;
-    min-width: 20px;
+    min-width: 15px;
 }
 .can_mov_bt{
     vertical-align: center;
@@ -42,13 +42,11 @@
     width: 8px;
 	height: 15px;
     margin-right: 2px;
-    margin-top: 2px;
     background-color: #666666;
     cursor: move;
 }
 .inv{
     opacity: 0%;
-    cursor: none;
 }
 #addlist{
     padding-left: 6px;
@@ -58,4 +56,10 @@
     opacity: 100%;
     background-color: #EEEEEE;
     border-radius: 5px;
+}
+.writen{
+    font-size:16px;
+    line-height: 16px;
+    outline: none;
+    border:none;
 }

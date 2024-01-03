@@ -53,47 +53,91 @@ dolists.forEach(element => {
 
 
 cnt = 0
-addbutton.addEventListener(`click`, ()=>{
-    const new_todo_input= document.createElement(`li`);
-    new_todo_input.innerHTML = `<div style="margin-left:10px;" class="ch_button"></div><div class="list_txt"><input type="text" id="writen" style="font-size:16px; line-height: 16px; heigth:24px; outline: none; border:none;"></div>`
-    todo_list.append(new_todo_input)
+addbutton.addEventListener('click', () => {
+    const new_todo_input = document.createElement('li');
+    new_todo_input.innerHTML = `<div style="margin-left:10px;" class="ch_button"></div><div class="list_txt"><input type="text" id="writen" style="font-size:16px; line-height: 16px; heigth:24px; outline: none; border:none;"></div>`;
+    todo_list.append(new_todo_input);
     cnt++;
     
-    const todo_text = document.getElementById(`writen`)
+    const todo_text = document.getElementById('writen');
     todo_text.focus();
-        
-    todo_text.addEventListener(`focusout`, ()=>{
-        thing = todo_text.value
-        new_todo= document.createElement(`li`);
-        const list_txt = document.createElement(`div`);
-        list_txt.setAttribute(`class`, `list_txt`);
-        list_txt.innerHTML= `<span>${thing}</span>`;
-        new_todo.innerHTML = `<div class="can_mov_bt inv"></div><input type="checkbox" style="display:none;" id="s${cnt}"><label for="s${cnt}" class="ch_button"></label>`
-        new_todo_input.remove();
-        new_todo.append(list_txt)
-        todo_list.append(new_todo)
-        console.log(new_todo)
-        list_txt.addEventListener(`mouseover`,(e)=>{
-            can_mov = list_txt.parentElement.children[0]
-            can_mov.classList.toggle(`inv`)
-            list_txt.children[0].style.background = `#EEEEEE`
-            list_txt.children[0].style.borderRadius = `2.5px`
-        })
-        list_txt.addEventListener(`mouseout`,()=>{
-            can_mov = list_txt.parentElement.children[0]
-            can_mov.classList.toggle(`inv`)
-            list_txt.children[0].style.background = `none`
-        })
-    })
-    todo_text.addEventListener("keyup", function (event) {
-        if (event.code == 'Enter'|| event.code == 'NumpadEnter') {
-            event.preventDefault();
-            todo_text.blur();       
-    }})
-})
 
-function modify_list_txt(element){
-    element.addEventListener(){
-        
-    }
+    todo_text.addEventListener('focusout', () => {
+        const thing = todo_text.value;
+        const new_todo = document.createElement('li');
+        const list_txt = document.createElement('div');
+        list_txt.setAttribute('class', 'list_txt');
+        list_txt.innerHTML = `<span>${thing}</span>`;
+        new_todo.innerHTML = `<div class="can_mov_bt inv"></div><input type="checkbox" style="display:none;" id="s${cnt}"><label for="s${cnt}" class="ch_button"></label>`;
+        new_todo_input.remove();
+        new_todo.append(list_txt);
+        todo_list.append(new_todo);
+
+        new_todo.addEventListener('mouseenter', (e) => {
+            const can_mov = new_todo.children[0];
+            can_mov.classList.remove('inv');
+        });
+
+        new_todo.addEventListener('mouseleave', (e) => {
+            const can_mov = new_todo.children[0];
+            can_mov.classList.add('inv');
+        });
+
+        list_txt.addEventListener('mouseover', () => {
+            list_txt.children[0].style.background = '#EEEEEE';
+            list_txt.children[0].style.borderRadius = '2.5px';
+        });
+
+        list_txt.addEventListener('mouseout', () => {
+            const can_mov = list_txt.parentElement.children[0];
+            list_txt.children[0].style.background = 'none';
+        });
+        list_txt.addEventListener('click', () => {
+            const currentText = list_txt.textContent;
+            modify_list_txt(list_txt, currentText);
+        });
+    });
+
+    todo_text.addEventListener('keyup', function (event) {
+        if (event.code == 'Enter' || event.code == 'NumpadEnter') {
+            event.preventDefault();
+            todo_text.blur();
+        }
+    });
+});
+
+function modify_list_txt(list_txt, initialText) {
+    // 새로운 input 엘리먼트 생성
+    const inputElement = document.createElement('input');
+    inputElement.type = 'text';
+    inputElement.value = initialText;
+
+    const can_mov = list_txt.parentElement.children[0];
+    can_mov.classList.add('inv');
+    // input 엘리먼트 스타일 설정
+    inputElement.style.fontSize = '16px';
+    inputElement.style.outline = 'none';
+    inputElement.style.border = 'none';
+
+    list_txt.innerHTML = ``;
+    list_txt.appendChild(inputElement);
+
+    inputElement.focus();
+
+    // input 포커스 아웃 이벤트 처리
+    inputElement.addEventListener('focusout', () => {
+        const newText = inputElement.value;
+        const newSpan = document.createElement('span');
+        newSpan.textContent = newText;
+        inputElement.remove();
+        list_txt.appendChild(newSpan);
+    });
+
+    // Enter 키 눌렀을 때 포커스 아웃 처리
+    inputElement.addEventListener('keyup', (event) => {
+        if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+            event.preventDefault();
+            inputElement.blur();
+        }
+    });
 }
