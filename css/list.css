@@ -36,6 +36,9 @@
     display: inline-block;
     min-width: 15px;
 }
+input[type=text]{
+    width: 500px;
+}
 .can_mov_bt{
     vertical-align: center;
     display: inline-block;
@@ -56,10 +59,4 @@
     opacity: 100%;
     background-color: #EEEEEE;
     border-radius: 5px;
-}
-.writen{
-    font-size:16px;
-    line-height: 16px;
-    outline: none;
-    border:none;
 }

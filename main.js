@@ -53,48 +53,61 @@ dolists.forEach(element => {
 
 
 cnt = 0
+
+
 addbutton.addEventListener('click', () => {
-    const new_todo_input = document.createElement('li');
-    new_todo_input.innerHTML = `<div style="margin-left:10px;" class="ch_button"></div><div class="list_txt"><input type="text" id="writen" style="font-size:16px; line-height: 16px; heigth:24px; outline: none; border:none;"></div>`;
-    todo_list.append(new_todo_input);
+    const new_todo_list = document.createElement('li');
+    new_todo_list.draggable= `true`;
+    const can_mov_bt = document.createElement(`div`)
+    can_mov_bt.classList.add(`can_mov_bt`,`inv`);
+    can_mov_bt.draggable=`true`
+    const ch_button = document.createElement(`input`);
+    ch_button.setAttribute(`type`, `checkbox`);
+    ch_button.setAttribute(`id`, `chb_${cnt}`)
+    ch_button.style.display = `none`
+    const ch_button_label = document.createElement(`label`)
+    ch_button_label.setAttribute(`for`,`chb_${cnt}`);
+    ch_button_label.setAttribute(`class`,`ch_button`);
+    const list_txt = document.createElement(`div`)
+    list_txt.setAttribute(`class`,`list_txt`);
+    new_todo_list.append(can_mov_bt, ch_button, ch_button_label, list_txt)
+    todo_list.append(new_todo_list);
+    console.log(list_txt.parentElement.firstChild)
+    writing_list_txt(list_txt, ``);
     cnt++;
     
-    const todo_text = document.getElementById('writen');
-    todo_text.focus();
+    const todo_text = list_txt.firstChild;
 
     todo_text.addEventListener('focusout', () => {
-        const thing = todo_text.value;
-        const new_todo = document.createElement('li');
-        const list_txt = document.createElement('div');
-        list_txt.setAttribute('class', 'list_txt');
-        list_txt.innerHTML = `<span>${thing}</span>`;
-        new_todo.innerHTML = `<div class="can_mov_bt inv"></div><input type="checkbox" style="display:none;" id="s${cnt}"><label for="s${cnt}" class="ch_button"></label>`;
-        new_todo_input.remove();
-        new_todo.append(list_txt);
-        todo_list.append(new_todo);
-
-        new_todo.addEventListener('mouseenter', (e) => {
-            const can_mov = new_todo.children[0];
+        new_todo_list.addEventListener(`dragstart`,(e)=>{
+            console.log(e.target)
+            if(e.target != can_mov_bt) e.preventDefault()
+            else new_todo_list.style.background =`#333333`
+        })
+        new_todo_list.addEventListener(`dragend`,(e)=>{
+            new_todo_list.style.background=`none`
+        })
+        new_todo_list.addEventListener('mouseenter', (e) => {
+            const can_mov = new_todo_list.firstChild;
             can_mov.classList.remove('inv');
         });
 
-        new_todo.addEventListener('mouseleave', (e) => {
-            const can_mov = new_todo.children[0];
+        new_todo_list.addEventListener('mouseleave', (e) => {
+            const can_mov = new_todo_list.firstChild;
             can_mov.classList.add('inv');
         });
 
         list_txt.addEventListener('mouseover', () => {
-            list_txt.children[0].style.background = '#EEEEEE';
-            list_txt.children[0].style.borderRadius = '2.5px';
+            list_txt.firstChild.style.background = '#EEEEEE';
+            list_txt.firstChild.style.borderRadius = '2.5px';
         });
 
         list_txt.addEventListener('mouseout', () => {
-            const can_mov = list_txt.parentElement.children[0];
-            list_txt.children[0].style.background = 'none';
+            list_txt.firstChild.style.background = 'none';
         });
         list_txt.addEventListener('click', () => {
             const currentText = list_txt.textContent;
-            modify_list_txt(list_txt, currentText);
+            writing_list_txt(list_txt, currentText);
         });
     });
 
@@ -106,38 +119,39 @@ addbutton.addEventListener('click', () => {
     });
 });
 
-function modify_list_txt(list_txt, initialText) {
+function writing_list_txt(list_txt, initialText) {
     // 새로운 input 엘리먼트 생성
-    const inputElement = document.createElement('input');
-    inputElement.type = 'text';
-    inputElement.value = initialText;
+    const input_list_txt = document.createElement('input');
+    input_list_txt.setAttribute (`type`, `text`)
+    input_list_txt.setAttribute(`id`,`writen`)
+    input_list_txt.value = initialText;
 
-    const can_mov = list_txt.parentElement.children[0];
+    const can_mov = list_txt.parentElement.firstChild;
+    console.log(can_mov)
     can_mov.classList.add('inv');
-    // input 엘리먼트 스타일 설정
-    inputElement.style.fontSize = '16px';
-    inputElement.style.outline = 'none';
-    inputElement.style.border = 'none';
+    input_list_txt.style.fontSize = '16px';
+    input_list_txt.style.outline = 'none';
+    input_list_txt.style.border = 'none';
 
     list_txt.innerHTML = ``;
-    list_txt.appendChild(inputElement);
+    list_txt.appendChild(input_list_txt);
 
-    inputElement.focus();
+    input_list_txt.focus();
 
     // input 포커스 아웃 이벤트 처리
-    inputElement.addEventListener('focusout', () => {
-        const newText = inputElement.value;
+    input_list_txt.addEventListener('focusout', () => {
+        const newText = input_list_txt.value;
         const newSpan = document.createElement('span');
         newSpan.textContent = newText;
-        inputElement.remove();
-        list_txt.appendChild(newSpan);
+        input_list_txt.remove();
+        list_txt.append(newSpan);
     });
 
     // Enter 키 눌렀을 때 포커스 아웃 처리
-    inputElement.addEventListener('keyup', (event) => {
+    input_list_txt.addEventListener('keyup', (event) => {
         if (event.code === 'Enter' || event.code === 'NumpadEnter') {
             event.preventDefault();
-            inputElement.blur();
+            input_list_txt.blur();
         }
     });
 }
