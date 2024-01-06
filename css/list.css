@@ -3,14 +3,13 @@
     grid-column: 2;
     grid-row: 4;
     margin-left: 10px;
-    margin-top: 20px;
+    margin-top: 15px;
 }
 #lists #todo_list *{
     vertical-align: middle;
 }
 #todo_list li{
     list-style: none;
-    margin-bottom: 10px;
 }
 #lists .ch_button {
 	display: inline-block;
@@ -53,10 +52,25 @@ input[type=text]{
 }
 #addlist{
     padding-left: 6px;
+    margin-top: 5px;
     cursor: pointer;
 }
 #addlist:hover{
     opacity: 100%;
     background-color: #EEEEEE;
     border-radius: 5px;
+}
+.grabbing{
+    cursor: grabbing;
+}
+.do_list{
+    margin: 3px 0;
+    border: 2px solid rgba(0, 0, 0, 0);
+}
+.drag-over-up {
+    border-top-color: blue;
+}
+
+.drag-over-down {
+    border-bottom-color: blue;
 }
