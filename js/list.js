@@ -102,15 +102,25 @@ function add_formalevents(todo_list){
 
                 dropTarget.classList.remove('drag-over-up', 'drag-over-down');
                 if (isAbove) {
-                    dropTarget.classList.add('drag-over-up');
+                    if(dropTarget!=draggedElement&&dropTarget.previousElementSibling!=draggedElement){
+                    if(dropTarget.previousElementSibling)
+                    dropTarget.previousElementSibling.classList.add('drag-over-down');
+                    else dropTarget.classList.add(`drag-over-up`)
+                    }
                 } else {
-                    dropTarget.classList.add('drag-over-down');
+                    if(dropTarget.nextElementSibling!=draggedElement&&dropTarget!=draggedElement){
+                        dropTarget.classList.add('drag-over-down');
+                        if(dropTarget.previousElementSibling)
+                        dropTarget.previousElementSibling.classList.remove('drag-over-up', 'drag-over-down');
+                    }
                 }
             }
     })
     todo_list.addEventListener(`dragleave`,(e)=>{
         const dropTarget = e.target.closest('.do_list');
         dropTarget.classList.remove('drag-over-up', 'drag-over-down');
+        if(dropTarget.previousElementSibling)
+        dropTarget.previousElementSibling.classList.remove('drag-over-up', 'drag-over-down');
     })
     todo_list.addEventListener(`drop`,(e)=>{
         e.preventDefault();
@@ -131,6 +141,8 @@ function add_formalevents(todo_list){
                     add_formalevents(newItem)
                 }
 
+                if(newItem.previousElementSibling)
+                newItem.previousElementSibling.classList.remove('drag-over-up', 'drag-over-down');
                 // Remove the original dragged element
                 draggedElement.remove();
             }
