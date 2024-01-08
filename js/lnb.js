@@ -3,7 +3,27 @@ const seek_button = document.getElementById('fade-out');
 const lnb = document.getElementById('left-menu');
 const top_menu = document.getElementById('top-menu');
 const id = document.getElementById('Identifier');
+const users_json={users:[{id:"dbsghajt1", name:"YunHo Kang", score:64},
+{id:"ajtwoddl1236", name:"Yu Kang", score:24}]
+}
 
+function load_name(user_id){
+    const targetId = user_id;
+    const foundUser = users_json.users.find(user => user.id === targetId);
+
+if (foundUser) {
+    id.innerText = foundUser.name;
+    console.log("찾은 사용자:", foundUser.name);
+    
+} else {
+    
+    id.innerText = `오류입니다.`
+    console.log("해당 ID를 가진 사용자를 찾을 수 없습니다.");
+}
+}
+
+const user_id_input = window.localStorage.getItem(`user_id`)
+load_name(user_id_input)
 hide_button.addEventListener("mouseover",()=>{
     hide_button.style.color="white";
     hide_button.style.backgroundColor="#eeeeee";

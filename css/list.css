@@ -26,16 +26,17 @@
     display: inline-block;
     margin-left: 5px;
     cursor: pointer;
-    min-height: 22px;
+    min-height: 24.5px;
     padding: 0px 2.5px;
-    flex-basis: 490px;
+    max-width: 490px;
 }
 .do_list .list_txt *{
     font-family: inter;
     white-space: pre-wrap;
     display: inline-block;
-    flex-basis: 490px;
+    max-width: 490px;
     line-height: 22px;
+    min-height: 22.5px;
     align-items: center;
 }
 .can_mov_bt{
@@ -47,6 +48,16 @@
     margin-right: 2px;
     background-color: #666666;
     cursor: move;
+}
+.del_btn{
+    vertical-align: center;
+    display: inline-block;
+    width: 10px;
+    vertical-align: baseline;
+	height: 10px;
+    margin-right: 2px;
+    background-color: #666666;
+    cursor: pointer;
 }
 .inv{
     opacity: 0%;
