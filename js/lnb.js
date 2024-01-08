@@ -12,13 +12,9 @@ function load_name(user_id){
     const foundUser = users_json.users.find(user => user.id === targetId);
 
 if (foundUser) {
-    id.innerText = foundUser.name;
-    console.log("찾은 사용자:", foundUser.name);
-    
+    id.innerText = foundUser.name;    
 } else {
-    
     id.innerText = `오류입니다.`
-    console.log("해당 ID를 가진 사용자를 찾을 수 없습니다.");
 }
 }
 

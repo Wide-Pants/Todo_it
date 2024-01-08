@@ -30,15 +30,12 @@ function load_todo_lists(user_id){
 
     if (targetObject) {
         const targetValue = targetObject[targetKey];
-        console.log("찾은 객체의 value:", targetValue);
         targetValue.forEach(element =>{
             const load_list = list_form(element.checked,element.list_txt,element.id);
             add_formalevents(load_list);
             todo_list.append(load_list);
         })
-    } else {
-        console.log("해당 키를 가진 객체를 찾을 수 없습니다.");
-    }   
+    }  
 }
 load_todo_lists(window.localStorage.getItem(`user_id`))
 cnt = 0
@@ -53,7 +50,9 @@ function writing_list_txt(list_txt) {
     input_list_txt.setAttribute('name', 'writen');
     input_list_txt.value = list_txt.firstChild.innerText || '';
 
-    const can_mov = list_txt.parentElement.firstChild;
+    const can_mov = origin_list.firstChild;
+    const del_btn = origin_list.lastChild;
+    del_btn.classList.add('inv');
     can_mov.classList.add('inv');
     input_list_txt.style.fontSize = '16px';
     input_list_txt.style.outline = 'none';
@@ -65,14 +64,10 @@ function writing_list_txt(list_txt) {
     input_list_txt.focus();
 
     // input 포커스 아웃 이벤트 처리
-    input_list_txt.addEventListener(`click`,(e)=>{
-        e.preventDefault()
-    })
+
     input_list_txt.addEventListener('focusout', () => {
         const newText = input_list_txt.value;
-        console.log(newText)
         list_txt.innerHTML = `<span>${newText}</span>`;
-        add_formalevents(origin_list);
         list_txt.classList.remove(`writen`);
     });
 
@@ -89,21 +84,19 @@ const make_list = () => {
     const new_todo_list = list_form();
     todo_list.append(new_todo_list);
     writing_list_txt(new_todo_list.children[3])
+    add_formalevents(new_todo_list)
     cnt++;
 }
 
 addbutton.addEventListener('click', () => make_list());
-
-
 
 function add_formalevents(todo_list){
     const can_mov_bt = todo_list.children[0];
     const list_txt = todo_list.children[3];
     const del_btn = todo_list.children[4];
 
-
-    del_btn.addEventListener(`click`,()=>{
-        
+    
+    del_btn.addEventListener(`click`,(e)=>{
         if(window.confirm(`정말 삭제하시겠습니까?`))
             todo_list.remove()
     })
@@ -184,10 +177,12 @@ function add_formalevents(todo_list){
             draggedElement = null;
     })
     todo_list.addEventListener('mouseenter', () => {
-        const can_mov = todo_list.firstChild;
-        const del_btn = todo_list.lastChild;
-        del_btn.classList.remove('inv');
-        can_mov.classList.remove('inv');
+        if(!list_txt.classList.contains(`writen`)){
+            const can_mov = todo_list.firstChild;
+            const del_btn = todo_list.lastChild;
+            del_btn.classList.remove('inv');
+            can_mov.classList.remove('inv');
+        }
     });
 
     todo_list.addEventListener('mouseleave', () => {
@@ -198,25 +193,23 @@ function add_formalevents(todo_list){
     });
 
     list_txt.addEventListener('mouseenter', () => {
-        list_txt.firstChild.style.background = '#EEEEEE';
-        list_txt.firstChild.style.borderRadius = '2.5px';
+        if(!list_txt.classList.contains(`writen`)){
+            list_txt.firstChild.style.background = '#EEEEEE';
+            list_txt.firstChild.style.borderRadius = '2.5px';
+        }
     });
 
     list_txt.addEventListener('mouseleave', () => {
         list_txt.firstChild.style.background = 'none';
     });
     list_txt.addEventListener('click', (e) => {
-        console.log(e.target.tagName)
         if(e.target.tagName!=`INPUT`&&!list_txt.classList.contains(`writen`)){
             writing_list_txt(list_txt);
         }
-            
-            
-            
     });
 }
 
-function list_form (isCheck=false, inText=``, num=cnt++){
+function list_form(isCheck=false, inText=``, num=cnt++){
     const new_todo_list = document.createElement('li');
     new_todo_list.setAttribute(`class`,`do_list`)
     const can_mov_bt = document.createElement(`div`)
