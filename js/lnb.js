@@ -3,14 +3,16 @@ const seek_button = document.getElementById('fade-out');
 const lnb = document.getElementById('left-menu');
 const top_menu = document.getElementById('top-menu');
 const id = document.getElementById('Identifier');
-const users_json={users:[{id:"dbsghajt1", name:"YunHo Kang", score:64},
-{id:"ajtwoddl1236", name:"Yu Kang", score:24}]
-}
+const users_json=`{"users":[{"id":"dbsghajt1", "name":"YunHo Kang", "score":64},
+{"id":"ajtwoddl1236", "name":"Yu Kang", "score":24}]
+}`
+
 
 function load_name(user_id){
+    const parsed_users = JSON.parse(users_json);
     const targetId = user_id;
-    const foundUser = users_json.users.find(user => user.id === targetId);
-
+    console.log(parsed_users)
+    const foundUser = parsed_users.users.find(user => user.id === targetId);
 if (foundUser) {
     id.innerText = foundUser.name;    
 } else {
@@ -20,6 +22,7 @@ if (foundUser) {
 
 const user_id_input = window.localStorage.getItem(`user_id`)
 load_name(user_id_input)
+
 hide_button.addEventListener("mouseover",()=>{
     hide_button.style.color="white";
     hide_button.style.backgroundColor="#eeeeee";

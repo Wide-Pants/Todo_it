@@ -1,15 +1,14 @@
 const addbutton = document.getElementById(`addlist`);
 const todo_list = document.getElementById(`todo_list`);
 const dolists = document.querySelectorAll('.do_list');
-const list_DB = {todo_lists:[{
-    dbsghajt1:[{id:"wacxas",checked:true,list_txt:"지금 부터 여기는 에버튼 갤러리다."},
-{id:"wacxa2s",checked:true,list_txt:"지금 부터 여기는 맨시티 갤러리다."},
-{id:`wacx4as`,checked:false,list_txt:"지금 부터 여기는 족구 갤러리다."},
-]},{
-    ajtwoddl1236:[{id:"wacxas",checked:true,list_txt:"지금 부터 여기는 해외축구 갤러리다."},
-{id:`wacxa2s`,checked:true,list_txt:"지금 부터 여기는 맨시티 갤러리다."},
-{id:`wacx4as`,checked:false,list_txt:"지금 부터 여기는 윤하 갤러리다."},
-]}]}
+const list_DB = `{"todo_lists":[
+    {"dbsghajt1":[{"id":"wacxas","checked":true,"list_txt":"지금 부터 여기는 에버튼 갤러리다."},
+{"id":"wacxa2s","checked":true,"list_txt":"지금 부터 여기는 맨시티 갤러리다."},
+{"id":"wacx4as","checked":false,"list_txt":"지금 부터 여기는 족구 갤러리다."}
+]},{"ajtwoddl1236":[{"id":"wacxas","checked":true,"list_txt":"지금 부터 여기는 해외축구 갤러리다."},
+{"id":"wacxa2s","checked":true,"list_txt":"지금 부터 여기는 맨시티 갤러리다."},
+{"id":"wacx4as","checked":false,"list_txt":"지금 부터 여기는 윤하 갤러리다."}
+]}]}`
 
 dolists.forEach(element => {
     element.addEventListener("mouseover", ()=>{
@@ -26,7 +25,9 @@ dolists.forEach(element => {
 
 function load_todo_lists(user_id){
     const targetKey = user_id;
-    const targetObject = list_DB.todo_lists.find(obj => obj[targetKey]);
+    const parsed_DB = JSON.parse(list_DB);
+    console.log(parsed_DB)
+    const targetObject = parsed_DB.todo_lists.find(obj => obj[targetKey]);
 
     if (targetObject) {
         const targetValue = targetObject[targetKey];
@@ -37,6 +38,7 @@ function load_todo_lists(user_id){
         })
     }  
 }
+
 load_todo_lists(window.localStorage.getItem(`user_id`))
 cnt = 0
 
