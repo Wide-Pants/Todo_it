@@ -21,9 +21,8 @@ function login(){
     login_warn.innerHTML="존재하지 않는 아이디 입니다.";
     login_warn.style.opacity= 100;});
 }
-login_btn.addEventListener(`click`, ()=>{
-    login()
-})
+
+login_btn.addEventListener(`click`,()=> login())
 
 login_id_input.addEventListener(`keyup`,(e)=>{
     if (e.code === 'Enter' || e.code === 'NumpadEnter'){

@@ -1,14 +1,28 @@
 const addbutton = document.getElementById(`addlist`);
 const todo_list = document.getElementById(`todo_list`);
 const dolists = document.querySelectorAll('.do_list');
-const list_DB = `{"todo_lists":[
-    {"dbsghajt1":[{"id":"wacxas","checked":true,"list_txt":"지금 부터 여기는 에버튼 갤러리다."},
-{"id":"wacxa2s","checked":true,"list_txt":"지금 부터 여기는 맨시티 갤러리다."},
-{"id":"wacx4as","checked":false,"list_txt":"지금 부터 여기는 족구 갤러리다."}
-]},{"ajtwoddl1236":[{"id":"wacxas","checked":true,"list_txt":"지금 부터 여기는 해외축구 갤러리다."},
-{"id":"wacxa2s","checked":true,"list_txt":"지금 부터 여기는 맨시티 갤러리다."},
-{"id":"wacx4as","checked":false,"list_txt":"지금 부터 여기는 윤하 갤러리다."}
-]}]}`
+
+const user_id = window.localStorage.getItem(`user_id`);
+
+function load_list(){
+    fetch(`/list/${user_id}`,{
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    }).then(response => response.json())
+    .then(targetObject => {
+        targetObject.forEach(element =>{
+            if(element){
+                const load_list = list_form(element.checked,element.list_txt,element.id);
+                add_formalevents(load_list);
+                todo_list.append(load_list);
+            }
+        })
+    }).catch((error) => {console.error('Error fetching user info:', error)});
+}
+cnt = 0
+load_list()
 
 dolists.forEach(element => {
     element.addEventListener("mouseover", ()=>{
@@ -22,25 +36,6 @@ dolists.forEach(element => {
         element.childNodes[2].style.color="black"
     }) 
 });
-
-function load_todo_lists(user_id){
-    const targetKey = user_id;
-    const parsed_DB = JSON.parse(list_DB);
-    console.log(parsed_DB)
-    const targetObject = parsed_DB.todo_lists.find(obj => obj[targetKey]);
-
-    if (targetObject) {
-        const targetValue = targetObject[targetKey];
-        targetValue.forEach(element =>{
-            const load_list = list_form(element.checked,element.list_txt,element.id);
-            add_formalevents(load_list);
-            todo_list.append(load_list);
-        })
-    }  
-}
-
-load_todo_lists(window.localStorage.getItem(`user_id`))
-cnt = 0
 
 function writing_list_txt(list_txt) {
     // 새로운 input 엘리먼트 생성
@@ -64,13 +59,20 @@ function writing_list_txt(list_txt) {
     list_txt.appendChild(input_list_txt);
 
     input_list_txt.focus();
-
     // input 포커스 아웃 이벤트 처리
 
     input_list_txt.addEventListener('focusout', () => {
         const newText = input_list_txt.value;
         list_txt.innerHTML = `<span>${newText}</span>`;
         list_txt.classList.remove(`writen`);
+        fetch(`/list/${user_id}`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },body: JSON.stringify({ 
+                id:`${origin_list.children[1].getAttribute('id')}`, checked: origin_list.children[1].checked, list_txt: newText
+            }),
+        })
     });
 
     // Enter 키 눌렀을 때 포커스 아웃 처리
@@ -87,7 +89,6 @@ const make_list = () => {
     todo_list.append(new_todo_list);
     writing_list_txt(new_todo_list.children[3])
     add_formalevents(new_todo_list)
-    cnt++;
 }
 
 addbutton.addEventListener('click', () => make_list());
@@ -99,8 +100,18 @@ function add_formalevents(todo_list){
 
     
     del_btn.addEventListener(`click`,(e)=>{
-        if(window.confirm(`정말 삭제하시겠습니까?`))
+        if(window.confirm(`정말 삭제하시겠습니까?`)){
             todo_list.remove()
+            fetch(`/list/${user_id}`,{
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },body: JSON.stringify({ 
+                    id:`${todo_list.children[1].getAttribute('id')}`
+                }),
+            })
+        }
+
     })
     can_mov_bt.addEventListener(`mouseover`,()=>{
         can_mov_bt.closest(`.do_list`).setAttribute(`draggable`,`true`)
@@ -232,5 +243,6 @@ function list_form(isCheck=false, inText=``, num=cnt++){
     const del_btn = document.createElement(`div`);//4
     del_btn.classList.add(`del_btn`,`inv`)
     new_todo_list.append(can_mov_bt, ch_button, ch_button_label, list_txt,del_btn)
+
     return new_todo_list;
 }
