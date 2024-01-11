@@ -3,17 +3,19 @@ const login_btn = document.getElementById(`login_btn`)
 const login_warn = document.getElementById(`login_warn`)
 
 
-function login(){
+async function login(){
     const userId = login_id_input.value;
-    fetch(`/get-user-info`,{
+    await fetch(`/get-user-info`,{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId }),
-    }).then(response => response.json())
+        body: JSON.stringify({ userId : userId }),
+    }).then(async response => await response.json())
     .then(userInfo => {
-        console.log(userInfo);
+        console.log(userInfo)
+        window.localStorage.setItem(`user_id`, userInfo.id);
+        window.localStorage.setItem(`user_name`, userInfo.name);
         window.location.href = `/home`;
         login_warn.style.opacity= 0;
     })

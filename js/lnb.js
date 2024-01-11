@@ -7,7 +7,7 @@ const friends_modal = document.getElementById(`friends_modal`)
 
 
 friends_modal.style.left = `${lnb.offsetWidth+10}px`;
-id.innerText = window.localStorage.getItem(`user_id`);
+id.innerText = window.localStorage.getItem(`user_name`);
 
 hide_button.addEventListener("mouseover",()=>{
     hide_button.style.color="white";

@@ -24,6 +24,7 @@ app.get(`/list/:id`,(req,res)=>{
     const list_json = fs.readFileSync(filePath);
     const parsed_list_DB = JSON.parse(list_json);
     const targetObject = parsed_list_DB.list
+    console.log(targetObject)
     res.send(targetObject)
 })
 
@@ -32,25 +33,45 @@ app.post(`/list/:id`,(req,res)=>{
     const filePath = path.join(__dirname, 'json', `${user_id}_list.json`);
     const list_json = fs.readFileSync(filePath);
     const parsed_list_DB = JSON.parse(list_json);
-    parsed_list_DB.list[parsed_list_DB.list.length] = req.body;
-    //parsed_list_DB.list.push = req.body
-    console.log(parsed_list_DB)
+    const foundListIndex = parsed_list_DB.list.findIndex(item => item.id === req.body.id);
+    
+    if(foundListIndex == -1)
+        parsed_list_DB.list.push(req.body);
+    else 
+        parsed_list_DB.list[foundListIndex].list_txt = req.body.list_txt;
 
+    console.log(parsed_list_DB)
+    fs.writeFileSync(filePath,JSON.stringify(parsed_list_DB, null, 2))
     res.send(`ok`)
 })
 
-app.delete(`/list/:id`,(req,res)=>{
+app.patch(`/list/:id`,(req,res)=>{
     const user_id = req.params.id
     const filePath = path.join(__dirname, 'json', `${user_id}_list.json`);
     const list_json = fs.readFileSync(filePath);
     const parsed_list_DB = JSON.parse(list_json);
     const foundListIndex = parsed_list_DB.list.findIndex(item => item.id === req.body.id);
     console.log(foundListIndex)
-    if (foundListIndex == -1) {
-        return res.status(404)
+    if(req.body.method == `del`){
+        if (foundListIndex == -1) {
+            return res.status(404)
+        }
+        parsed_list_DB.list.splice(foundListIndex, 1)
+        fs.writeFileSync(filePath,JSON.stringify(parsed_list_DB, null, 2))
+    }else if(req.body.method == `checked_toggle`){
+        if (foundListIndex == -1) {
+            return res.status(404)
+        }
+        parsed_list_DB.list[foundListIndex].checked = req.body.check_boolean;
+        fs.writeFileSync(filePath,JSON.stringify(parsed_list_DB, null, 2))
+    }else if(req.body.method == `chage_order`){
+        const switch_element = parsed_list_DB.list[foundListIndex]
+        parsed_list_DB.list.splice(foundListIndex, 1)
+        parsed_list_DB.list.splice(req.body.index, 0, switch_element)
+        console.log(parsed_list_DB)
+        fs.writeFileSync(filePath,JSON.stringify(parsed_list_DB, null, 2))
     }
-      jsonData.list.splice(index, 1);
-    res.send(`ok`)
+    res.send(list_json)
 })
 
 app.get(`/login`,(req,res)=>{
@@ -64,9 +85,9 @@ app.post('/get-user-info', (req, res) => {
     const filePath = path.join(__dirname, 'json', 'users.json');
     const users_json = fs.readFileSync(filePath);
     const parsed_users = JSON.parse(users_json);
-    const targetId = userId;
-    const foundUser = parsed_users.users.find(user => user.id === targetId);
+    const foundUser = parsed_users.users.find(user => user.id === userId);
     if(foundUser){
+        console.log(foundUser)
         res.json(foundUser)
     }else{
         res.status(500).send('아이디 없음!');

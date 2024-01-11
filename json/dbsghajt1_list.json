@@ -1,1 +1,24 @@
-{"list":[{"id":"wacxas","checked":true,"list_txt":"지금 부터 여기는 해외축구 갤러리다."},{"id":"wacxa2s","checked":true,"list_txt":"지금 부터 여기는 맨시티 갤러리다."},{"id":"wacx4as","checked":false,"list_txt":"지금 부터 여기는 윤하 갤러리다."},{"id":"chb_0","checked":false,"list_txt":"ㅈㅇㅈㅂㅇ"},{"id":"chb_0","checked":false,"list_txt":"ㅂㅂㅂㅂ"},null,{"id":"chb_0","checked":false,"list_txt":"ㅈㅈㅈㅈ"},{"id":"chb_0","checked":false,"list_txt":"ㅈㅂㄷㅈㅂㄷ"},{"id":"chb_0","checked":false,"list_txt":"ㅈㄷㅂㅈㄷㅈㅂ"}]}
+{
+  "list": [
+    {
+      "id": "GKEAP",
+      "checked": false,
+      "list_txt": "나는 빡빡이다"
+    },
+    {
+      "id": "oObUs",
+      "checked": false,
+      "list_txt": "ㅂㅂㅂㅂㅂ"
+    },
+    {
+      "id": "wacxa2s",
+      "checked": false,
+      "list_txt": "지금 부터 여기는 맨시티 갤러리다.ㅇㅈㅂㅈㅇ"
+    },
+    {
+      "id": "Eb6VA",
+      "checked": false,
+      "list_txt": "ㅇㅂㅈㅇ"
+    }
+  ]
+}

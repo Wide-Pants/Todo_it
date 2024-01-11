@@ -1,11 +1,11 @@
 const addbutton = document.getElementById(`addlist`);
-const todo_list = document.getElementById(`todo_list`);
+const todo_list_element = document.getElementById(`todo_list`);
 const dolists = document.querySelectorAll('.do_list');
 
 const user_id = window.localStorage.getItem(`user_id`);
 
-function load_list(){
-    fetch(`/list/${user_id}`,{
+async function load_list(){
+    await fetch(`/list/${user_id}`,{
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -16,13 +16,25 @@ function load_list(){
             if(element){
                 const load_list = list_form(element.checked,element.list_txt,element.id);
                 add_formalevents(load_list);
-                todo_list.append(load_list);
+                todo_list_element.append(load_list);
             }
         })
     }).catch((error) => {console.error('Error fetching user info:', error)});
 }
 cnt = 0
 load_list()
+
+function generateRandomString() {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let randomString = '';
+  
+    for (let i = 0; i < 5; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      randomString += characters.charAt(randomIndex);
+    }
+  
+    return randomString;
+}
 
 dolists.forEach(element => {
     element.addEventListener("mouseover", ()=>{
@@ -86,7 +98,7 @@ function writing_list_txt(list_txt) {
 
 const make_list = () => {
     const new_todo_list = list_form();
-    todo_list.append(new_todo_list);
+    todo_list_element.append(new_todo_list);
     writing_list_txt(new_todo_list.children[3])
     add_formalevents(new_todo_list)
 }
@@ -95,19 +107,33 @@ addbutton.addEventListener('click', () => make_list());
 
 function add_formalevents(todo_list){
     const can_mov_bt = todo_list.children[0];
+    const list_check = todo_list.children[1];
     const list_txt = todo_list.children[3];
     const del_btn = todo_list.children[4];
 
-    
-    del_btn.addEventListener(`click`,(e)=>{
+    list_check.addEventListener(`change`, ()=>{
+        fetch(`/list/${user_id}`,{
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },body: JSON.stringify({ 
+                id:`${todo_list.children[1].getAttribute('id')}`,
+                method : `checked_toggle`,
+                check_boolean: list_check.checked
+            }),
+        }).then(res => console.log(res))
+    })
+    del_btn.addEventListener(`click`,()=>{
         if(window.confirm(`정말 삭제하시겠습니까?`)){
             todo_list.remove()
+            console.log(`${todo_list.children[1].getAttribute('id')}`);
             fetch(`/list/${user_id}`,{
-                method: 'DELETE',
+                method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                 },body: JSON.stringify({ 
-                    id:`${todo_list.children[1].getAttribute('id')}`
+                    id:`${todo_list.children[1].getAttribute('id')}`,
+                    method : `del`
                 }),
             })
         }
@@ -179,7 +205,16 @@ function add_formalevents(todo_list){
                     dropTarget.after(newItem);
                     add_formalevents(newItem)
                 }
-
+                fetch(`/list/${user_id}`,{
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },body: JSON.stringify({ 
+                        id:`${todo_list.children[1].getAttribute('id')}`,
+                        method : `chage_order`,
+                        index: Array.from(todo_list_element.childNodes).indexOf(newItem)
+                    }),
+                })
                 if(newItem.previousElementSibling)
                 newItem.previousElementSibling.classList.remove('drag-over-up', 'drag-over-down');
                 // Remove the original dragged element
@@ -222,17 +257,17 @@ function add_formalevents(todo_list){
     });
 }
 
-function list_form(isCheck=false, inText=``, num=cnt++){
+function list_form(isCheck=false, inText=``, ch_id = generateRandomString()){
     const new_todo_list = document.createElement('li');
     new_todo_list.setAttribute(`class`,`do_list`)
     const can_mov_bt = document.createElement(`div`)
     can_mov_bt.classList.add(`can_mov_bt`,`inv`);//0
     const ch_button = document.createElement(`input`);//1
     ch_button.setAttribute(`type`, `checkbox`);
-    ch_button.setAttribute(`id`, `chb_${num}`)
+    ch_button.setAttribute(`id`, `${ch_id}`)
     ch_button.style.display = `none`
     const ch_button_label = document.createElement(`label`)//2
-    ch_button_label.setAttribute(`for`,`chb_${num}`);
+    ch_button_label.setAttribute(`for`,`${ch_id}`);
     ch_button_label.setAttribute(`class`,`ch_button`);
     const list_txt = document.createElement(`div`);//3
     list_txt.setAttribute(`class`,`list_txt`);
