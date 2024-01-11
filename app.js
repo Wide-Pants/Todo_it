@@ -32,7 +32,8 @@ app.post(`/list/:id`,(req,res)=>{
     const filePath = path.join(__dirname, 'json', `${user_id}_list.json`);
     const list_json = fs.readFileSync(filePath);
     const parsed_list_DB = JSON.parse(list_json);
-    parsed_list_DB.list[parsed_list_DB.list.length] = req.body
+    parsed_list_DB.list[parsed_list_DB.list.length] = req.body;
+    //parsed_list_DB.list.push = req.body
     console.log(parsed_list_DB)
 
     res.send(`ok`)
@@ -43,8 +44,12 @@ app.delete(`/list/:id`,(req,res)=>{
     const filePath = path.join(__dirname, 'json', `${user_id}_list.json`);
     const list_json = fs.readFileSync(filePath);
     const parsed_list_DB = JSON.parse(list_json);
-    const foundListIndex = parsed_list_DB.list.find(list => list === req.body.id);
+    const foundListIndex = parsed_list_DB.list.findIndex(item => item.id === req.body.id);
     console.log(foundListIndex)
+    if (foundListIndex == -1) {
+        return res.status(404)
+    }
+      jsonData.list.splice(index, 1);
     res.send(`ok`)
 })
 
