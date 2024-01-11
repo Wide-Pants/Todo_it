@@ -3,7 +3,10 @@ const seek_button = document.getElementById('fade-out');
 const lnb = document.getElementById('left-menu');
 const top_menu = document.getElementById('top-menu');
 const id = document.getElementById('Identifier');
+const friends_modal = document.getElementById(`friends_modal`)
 
+
+friends_modal.style.left = `${lnb.offsetWidth+10}px`;
 id.innerText = window.localStorage.getItem(`user_id`);
 
 hide_button.addEventListener("mouseover",()=>{
