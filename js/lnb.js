@@ -4,7 +4,7 @@ const lnb = document.getElementById('left-menu');
 const top_menu = document.getElementById('top-menu');
 const id = document.getElementById('Identifier');
 const friends_modal = document.getElementById(`friends_modal`)
-
+const friends_btn = document.getElementById(`friends`)
 
 friends_modal.style.left = `${lnb.offsetWidth+10}px`;
 id.innerText = window.localStorage.getItem(`user_name`);
@@ -27,6 +27,9 @@ top_menu.addEventListener("mouseout", ()=>{
     top_menu.style.backgroundColor="#eeeeee";
     hide_button.style.display="none"
 })
+friends_btn.addEventListener("click", ()=>{
+    friends_modal.classList.toggle(`inv`)
+})
 function hide_menu(){
     lnb.style.display="none";
     seek_button.style.display="block";
@@ -36,5 +39,6 @@ function find_menu(){
     lnb.style.display="flex";
     seek_button.style.display="none";
 }
+
 hide_button.addEventListener("click",hide_menu)
 seek_button.addEventListener("click",find_menu)

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/top_menu.css">
-    <link rel="stylesheet" href="css/categori.css">
+    <link rel="stylesheet" href="css/todo_category.css">
     <link rel="stylesheet" href="css/hashtags.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/page.css">
@@ -20,12 +20,7 @@
             <div id="Identifier">유저 이름님</div><div id="fade-in"><<</div>
         </div>
         <div style="margin-top: 17.5px;"></div>
-        <ul id="todo_categori">
-            <li class="do_list"><span class="imogi">❤</span><span class="list_name">언젠가는 반드시!</span><span class="numofli">7</span></li>
-            <li class="do_list"><span class="imogi">🤳</span><span class="list_name">오늘의 리스트</span><span class="numofli">6</span></li>
-            <li class="do_list"><span class="imogi">✔</span><span class="list_name">밀린 일</span><span class="numofli">5</span></li>
-            <li class="do_list"><span class="imogi">👀</span><span class="list_name">매일 매일 열심히</span><span class="numofli">2</span></li>
-        </ul>
+        <ul id="todo_category"></ul>
         
         <div style="margin-top: 20px;"></div>
         <ul id="hash_tags">
@@ -35,7 +30,7 @@
         </ul>
         <div id="footer">
             <div id="friends"></div>
-            <div id="friends_modal"></div>
+            <div id="friends_modal" class="inv"></div>
             <div id="app down"></div>
             <div id="setting"></div>
         </div>
@@ -43,11 +38,9 @@
     <div id="main_field">
         <div id="main_imogi"><div>❤</div></div>
         <div id="title">언젠가는 반드시!</div>
-        <div id="info"><div id="info_text">이 카테고리의 투두 리스트를 하나씩 해치울 때 마다 <span style="color:#CE7E7E; background-color: #fcdbdb; border-radius: 4px; padding: 0 2.5px;">+1 포인트</span>가 올라가요!<br>
-            이 카테고리는 매일 2개씩, 총 10개를 추가할 수 있어요! 지워도 포인트가 내려가지 않아요:)</div></div>
+        <div id="info"><div id="info_text"></div></div>
         <div id="lists">
-            <ul id="todo_list">
-            </ul>
+            <ul id="todo_list"></ul>
             <div id="addlist">+ 리스트를 추가하세요.</div>
         </div>
         
@@ -55,5 +48,6 @@
 </body>
 
 <script type="text/javascript" src="js/list.js"></script>
+<script type="text/javascript" src="js/categrories.js"></script>
 <script type="text/javascript" src="js/lnb.js"></script>
 </html>

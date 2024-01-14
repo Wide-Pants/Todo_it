@@ -3,9 +3,12 @@ const todo_list_element = document.getElementById(`todo_list`);
 const dolists = document.querySelectorAll('.do_list');
 
 const user_id = window.localStorage.getItem(`user_id`);
+let page_num 
 
-async function load_list(){
-    await fetch(`/list/${user_id}`,{
+async function load_list(num){
+    page_num = num
+    todo_list_element.innerHTML = ``;
+    await fetch(`/list/${user_id}/${num}`,{
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -15,14 +18,13 @@ async function load_list(){
         targetObject.forEach(element =>{
             if(element){
                 const load_list = list_form(element.checked,element.list_txt,element.id);
-                add_formalevents(load_list);
+                add_formalevents_list(load_list);
                 todo_list_element.append(load_list);
             }
         })
     }).catch((error) => {console.error('Error fetching user info:', error)});
 }
 cnt = 0
-load_list()
 
 function generateRandomString() {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -77,7 +79,7 @@ function writing_list_txt(list_txt) {
         const newText = input_list_txt.value;
         list_txt.innerHTML = `<span>${newText}</span>`;
         list_txt.classList.remove(`writen`);
-        fetch(`/list/${user_id}`,{
+        fetch(`/list/${user_id}/${page_num}`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -100,19 +102,19 @@ const make_list = () => {
     const new_todo_list = list_form();
     todo_list_element.append(new_todo_list);
     writing_list_txt(new_todo_list.children[3])
-    add_formalevents(new_todo_list)
+    add_formalevents_list(new_todo_list)
 }
 
 addbutton.addEventListener('click', () => make_list());
 
-function add_formalevents(todo_list){
+const add_formalevents_list = (todo_list)=>{
     const can_mov_bt = todo_list.children[0];
     const list_check = todo_list.children[1];
     const list_txt = todo_list.children[3];
     const del_btn = todo_list.children[4];
 
     list_check.addEventListener(`change`, ()=>{
-        fetch(`/list/${user_id}`,{
+        fetch(`/list/${user_id}/${page_num}`,{
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -127,7 +129,7 @@ function add_formalevents(todo_list){
         if(window.confirm(`정말 삭제하시겠습니까?`)){
             todo_list.remove()
             console.log(`${todo_list.children[1].getAttribute('id')}`);
-            fetch(`/list/${user_id}`,{
+            fetch(`/list/${user_id}/${page_num}`,{
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -193,24 +195,27 @@ function add_formalevents(todo_list){
 
             if (dropTarget && draggedElement !== dropTarget) {
                 // Create a new list item
-                const newItem = list_form(draggedElement.children[1].checked,e.dataTransfer.getData('text/plain'))
+                const newItem = list_form(draggedElement.children[1].checked,e.dataTransfer.getData('text/plain'),draggedElement.children[1].getAttribute(`id`))
                 
                 const rect = dropTarget.getBoundingClientRect();
                 const isAbove = e.clientY < rect.top + rect.height / 2;
 
                 if (isAbove) {
                     dropTarget.before(newItem);
-                    add_formalevents(newItem)
+                    add_formalevents_list(newItem);
                 } else {
                     dropTarget.after(newItem);
-                    add_formalevents(newItem)
+                    add_formalevents_list(newItem);
                 }
-                fetch(`/list/${user_id}`,{
+                draggedElement.remove();
+                console.log(Array.from(todo_list_element.childNodes).indexOf(newItem))
+                console.log(newItem.children[1].getAttribute('id'))
+                fetch(`/list/${user_id}/${page_num}`,{
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
                     },body: JSON.stringify({ 
-                        id:`${todo_list.children[1].getAttribute('id')}`,
+                        id:`${newItem.children[1].getAttribute('id')}`,
                         method : `chage_order`,
                         index: Array.from(todo_list_element.childNodes).indexOf(newItem)
                     }),
