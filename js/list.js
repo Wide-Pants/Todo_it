@@ -7,7 +7,6 @@ let page_num
 
 async function load_list(num){
     page_num = num
-    to_do_list_box.innerHTML = ``;
     await fetch(`/list/${user_id}/${num}`,{
         method: 'GET',
         headers: {
@@ -61,10 +60,10 @@ function writing_list_txt(list_txt) {
     input_list_txt.setAttribute('name', 'writen');
     input_list_txt.value = list_txt.firstChild.innerText || '';
 
-    const can_mov = origin_list.firstChild;
+    const can_move_btn = origin_list.firstChild;
     const del_btn = origin_list.lastChild;
     del_btn.classList.add('inv');
-    can_mov.classList.add('inv');
+    can_move_btn.classList.add('inv');
     input_list_txt.style.fontSize = '16px';
     input_list_txt.style.outline = 'none';
     input_list_txt.style.border = 'none';
@@ -84,7 +83,7 @@ function writing_list_txt(list_txt) {
             headers: {
                 'Content-Type': 'application/json',
             },body: JSON.stringify({ 
-                id:`${origin_list.children[1].getAttribute('id')}`, checked: origin_list.children[1].checked, list_txt: newText
+                id:`${origin_list.children[1].getAttribute('id')}`, checked: origin_list.children[1].checked, list_txt: newText, new_ID: generateRandomString()
             }),
         })
     });
@@ -109,11 +108,11 @@ add_list_btn.addEventListener('click', () => make_list());
 
 const add_formalevents_list = (to_do_list)=>{
     const can_mov_bt = to_do_list.children[0];
-    const list_check = to_do_list.children[1];
+    const list_checked = to_do_list.children[1];
     const list_txt = to_do_list.children[3];
     const del_btn = to_do_list.children[4];
 
-    list_check.addEventListener(`change`, ()=>{
+    list_checked.addEventListener(`change`, ()=>{
         fetch(`/list/${user_id}/${page_num}`,{
             method: 'PATCH',
             headers: {
@@ -121,7 +120,7 @@ const add_formalevents_list = (to_do_list)=>{
             },body: JSON.stringify({ 
                 id:`${to_do_list.children[1].getAttribute('id')}`,
                 method : `checked_toggle`,
-                check_boolean: list_check.checked
+                check_boolean: list_checked.checked
             }),
         }).then(res => console.log(res))
     })

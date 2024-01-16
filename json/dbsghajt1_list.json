@@ -16,18 +16,28 @@
         },
         {
           "id": "pNa4E",
-          "checked": false,
+          "checked": true,
           "list_txt": "615"
         },
         {
           "id": "GK42EAP",
-          "checked": false,
+          "checked": true,
           "list_txt": "나는 빡빡이다2"
         },
         {
           "id": "GKEA21P",
           "checked": true,
           "list_txt": "나는 빡빡이다4"
+        },
+        {
+          "id": "UZhzg",
+          "checked": true,
+          "list_txt": "ㅂㅂㅂㅂ"
+        },
+        {
+          "id": "oHrvF",
+          "checked": false,
+          "list_txt": "ㅈㄷㅂㅈㄷ"
         }
       ]
     },
@@ -49,6 +59,11 @@
           "id": "GKEA21P",
           "checked": true,
           "list_txt": "나는 빡빡이다4"
+        },
+        {
+          "id": "HbSiU",
+          "checked": true,
+          "list_txt": "가나다라바밥ㅈㅂㅈㄷㅈㅂㄷ"
         }
       ]
     },

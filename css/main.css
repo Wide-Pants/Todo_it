@@ -26,8 +26,18 @@ body{
     font-family: 'inter';
     height: 100%;
     position: static;
-    display: grid;
+    display: none;
     width: 100%;
     grid-template-columns: calc(50% - 280px) 560px auto;
     grid-template-rows: 35px 35px 75px auto auto;
+}
+
+#main_homepage{
+    font-family: 'inter';
+    height: 100%;
+    position: static;
+    display: grid;
+    width: 100%;
+    grid-template-columns: calc(50% - 280px) 280px 280px auto;
+    grid-template-rows: 35px 35px 25px 30px 120px 120px auto;
 }

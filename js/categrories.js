@@ -1,4 +1,5 @@
 const categories = document.getElementById(`to_do_catgories`)
+const main_contents_zone = document.getElementById(`main_contents_zone`)
 let info_array
 
 async function load_categories(){
@@ -53,10 +54,14 @@ function add_categories(imogi, name, num_of_list){
     new_category.append(cat_imogi,cat_name,cat_num_of_list)
     categories.append(new_category)
     new_category.addEventListener(`click`, (e)=>{
+        main_contents_zone.classList.remove(`not_thispage`)
         const clicked_cat = e.target.closest(`.cat_list`)
         const cat_idx = Array.from(categories.children).indexOf(clicked_cat)
+        if(page_num!=cat_idx){
+        to_do_list_box.innerHTML = ``;
         load_list(cat_idx)
         chage_page(imogi,name,cat_idx)
         history.pushState({ catIdx: cat_idx },`투두잇 | ${imogi+' '+name}`,`?cat/${cat_idx}`)
+        }
     })
 }
