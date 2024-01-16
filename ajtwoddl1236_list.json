@@ -1,0 +1,103 @@
+{
+  "categories": [
+    {
+      "category_imogi": "❤",
+      "category_name": "언젠가는 반드시",
+      "list": [
+        {
+          "id": "GKEAP",
+          "checked": true,
+          "list_txt": "나는 빡빡이다1"
+        },
+        {
+          "id": "GKEA13P",
+          "checked": true,
+          "list_txt": "나는 빡빡이다3"
+        },
+        {
+          "id": "pNa4E",
+          "checked": false,
+          "list_txt": "615"
+        },
+        {
+          "id": "GK42EAP",
+          "checked": false,
+          "list_txt": "나는 빡빡이다2"
+        },
+        {
+          "id": "GKEA21P",
+          "checked": true,
+          "list_txt": "나는 빡빡이다4"
+        }
+      ]
+    },
+    {
+      "category_imogi": "🤳",
+      "category_name": "오늘의 리스트",
+      "list": [
+        {
+          "id": "pNa4E",
+          "checked": false,
+          "list_txt": "615"
+        },
+        {
+          "id": "GK42EAP",
+          "checked": false,
+          "list_txt": "나는 빡빡이다2"
+        },
+        {
+          "id": "GKEA21P",
+          "checked": true,
+          "list_txt": "나는 빡빡이다4"
+        }
+      ]
+    },
+    {
+      "category_imogi": "✔",
+      "category_name": "밀린 일",
+      "list": [
+        {
+          "id": "pNa4E",
+          "checked": false,
+          "list_txt": "615"
+        },
+        {
+          "id": "GK42EAP",
+          "checked": false,
+          "list_txt": "나는 빡빡이다2"
+        }
+      ]
+    },
+    {
+      "category_imogi": "👀",
+      "category_name": "매일 매일 열심히",
+      "list": [
+        {
+          "id": "GKEAP",
+          "checked": true,
+          "list_txt": "나는 빡빡이다1"
+        },
+        {
+          "id": "GKEA13P",
+          "checked": true,
+          "list_txt": "나는 빡빡이다3"
+        },
+        {
+          "id": "pNa4E",
+          "checked": false,
+          "list_txt": "615"
+        },
+        {
+          "id": "GK42EAP",
+          "checked": false,
+          "list_txt": "나는 빡빡이다2"
+        },
+        {
+          "id": "GKEA21P",
+          "checked": true,
+          "list_txt": "나는 빡빡이다4"
+        }
+      ]
+    }
+  ]
+}

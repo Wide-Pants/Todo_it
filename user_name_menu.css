@@ -1,0 +1,52 @@
+
+#user_name_menu{
+    margin-left: 10px;
+    align-items: center;
+    display: inline-flex;
+    justify-content: space-between;
+    padding-right: 5px;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+#Identifier{
+    width: 170px;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 30px;
+    padding-left: 5px;
+    padding-right: 50px;
+    padding-top: 2.5px;
+    padding-bottom: 2.5px;
+    cursor: pointer;
+}
+#hide_btn{
+    display: none;
+    background-clip: content-box;
+    text-align: center;
+    line-height: auto;
+    justify-items: center;
+    padding: 2.5px;
+    width: 24px;
+    height: 24px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#seek_btn{
+    position: absolute;
+    margin-top: 17.5px;
+    margin-left: 12.5px;
+    display: none;
+    background-clip: content-box;
+    text-align: center;
+    line-height: 25px;
+    justify-items: center;
+    background-color: #EEEEEE;
+    padding: 2.5px;
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    cursor: pointer;
+}
