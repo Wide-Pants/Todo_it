@@ -1,31 +1,31 @@
 
-#lists{
+#main_contents_box{
     grid-column: 2;
     grid-row: 4;
     margin-left: 10px;
     margin-top: 15px;
 }
-#lists #todo_list *{
+#main_contents_box #to_do_list_box *{
     vertical-align: middle;
 }
-#todo_list li{
+#to_do_list_box li{
     list-style: none;
 }
-.do_list .ch_button {
+.to_do_list .ch_button {
 	display: inline-block;
 	width: 18px;
 	height: 18px;
 	border: 1px solid #bcbcbc;
 	cursor: pointer;
 }
-.do_list input:checked + .ch_button {
+.to_do_list input:checked + .ch_button {
     background-color: #ffc1c1;
     border: 1px solid #ffc1c1;
 }
 input[type=text]{
     width: 490px;
 }
-.do_list .list_txt{
+.to_do_list .list_txt{
     display: inline-block;
     margin-left: 5px;
     cursor: pointer;
@@ -33,7 +33,7 @@ input[type=text]{
     padding: 0px 2.5px;
     max-width: 490px;
 }
-.do_list .list_txt *{
+.to_do_list .list_txt *{
     font-family: inter;
     white-space: normal;
     display: inline-block;
@@ -65,21 +65,21 @@ input[type=text]{
 .inv{
     opacity: 0%;
 }
-#addlist{
+#add_list_btn{
     padding-left: 6px;
     margin-top: 5px;
     cursor: pointer;
 }
-#addlist:hover{
+#add_list_btn:hover{
     opacity: 100%;
     background-color: #EEEEEE;
     color: rgb(95, 95, 95);
     border-radius: 5px;
 }
-.do_list.dragging{
+.to_do_list.dragging{
     cursor: pointer;
 }
-.do_list{
+.to_do_list{
     display: flex;
     align-items: center;
     vertical-align: middle;

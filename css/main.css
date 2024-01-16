@@ -22,7 +22,7 @@ body{
     height: 100%;    
     background-color: #EEEEEE;
 }
-#main_field{
+#main_contents_zone{
     font-family: 'inter';
     height: 100%;
     position: static;

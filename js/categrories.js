@@ -1,4 +1,4 @@
-const categories = document.getElementById(`todo_category`)
+const categories = document.getElementById(`to_do_catgories`)
 let info_array
 
 async function load_categories(){

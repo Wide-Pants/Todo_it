@@ -1,13 +1,13 @@
-const addbutton = document.getElementById(`addlist`);
-const todo_list_element = document.getElementById(`todo_list`);
-const dolists = document.querySelectorAll('.do_list');
+const add_list_btn = document.getElementById(`add_list_btn`);
+const to_do_list_box = document.getElementById(`to_do_list_box`);
+const to_do_list = document.querySelectorAll('.to_do_list');
 
 const user_id = window.localStorage.getItem(`user_id`);
 let page_num 
 
 async function load_list(num){
     page_num = num
-    todo_list_element.innerHTML = ``;
+    to_do_list_box.innerHTML = ``;
     await fetch(`/list/${user_id}/${num}`,{
         method: 'GET',
         headers: {
@@ -19,7 +19,7 @@ async function load_list(num){
             if(element){
                 const load_list = list_form(element.checked,element.list_txt,element.id);
                 add_formalevents_list(load_list);
-                todo_list_element.append(load_list);
+                to_do_list_box.append(load_list);
             }
         })
     }).catch((error) => {console.error('Error fetching user info:', error)});
@@ -38,7 +38,7 @@ function generateRandomString() {
     return randomString;
 }
 
-dolists.forEach(element => {
+to_do_list.forEach(element => {
     element.addEventListener("mouseover", ()=>{
         element.style.backgroundColor="rgb(151, 151, 151)";
         element.childNodes[1].style.color="white"
@@ -53,7 +53,7 @@ dolists.forEach(element => {
 
 function writing_list_txt(list_txt) {
     // 새로운 input 엘리먼트 생성
-    const origin_list = list_txt.closest(`.do_list`);
+    const origin_list = list_txt.closest(`.to_do_list`);
     const input_list_txt = document.createElement('input');
     list_txt.classList.add(`writen`);
     input_list_txt.classList.add(`writen`);
@@ -99,19 +99,19 @@ function writing_list_txt(list_txt) {
 }
 
 const make_list = () => {
-    const new_todo_list = list_form();
-    todo_list_element.append(new_todo_list);
-    writing_list_txt(new_todo_list.children[3])
-    add_formalevents_list(new_todo_list)
+    const new_to_do_list = list_form();
+    to_do_list_box.append(new_to_do_list);
+    writing_list_txt(new_to_do_list.children[3])
+    add_formalevents_list(new_to_do_list)
 }
 
-addbutton.addEventListener('click', () => make_list());
+add_list_btn.addEventListener('click', () => make_list());
 
-const add_formalevents_list = (todo_list)=>{
-    const can_mov_bt = todo_list.children[0];
-    const list_check = todo_list.children[1];
-    const list_txt = todo_list.children[3];
-    const del_btn = todo_list.children[4];
+const add_formalevents_list = (to_do_list)=>{
+    const can_mov_bt = to_do_list.children[0];
+    const list_check = to_do_list.children[1];
+    const list_txt = to_do_list.children[3];
+    const del_btn = to_do_list.children[4];
 
     list_check.addEventListener(`change`, ()=>{
         fetch(`/list/${user_id}/${page_num}`,{
@@ -119,7 +119,7 @@ const add_formalevents_list = (todo_list)=>{
             headers: {
                 'Content-Type': 'application/json',
             },body: JSON.stringify({ 
-                id:`${todo_list.children[1].getAttribute('id')}`,
+                id:`${to_do_list.children[1].getAttribute('id')}`,
                 method : `checked_toggle`,
                 check_boolean: list_check.checked
             }),
@@ -127,14 +127,14 @@ const add_formalevents_list = (todo_list)=>{
     })
     del_btn.addEventListener(`click`,()=>{
         if(window.confirm(`정말 삭제하시겠습니까?`)){
-            todo_list.remove()
-            console.log(`${todo_list.children[1].getAttribute('id')}`);
+            to_do_list.remove()
+            console.log(`${to_do_list.children[1].getAttribute('id')}`);
             fetch(`/list/${user_id}/${page_num}`,{
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                 },body: JSON.stringify({ 
-                    id:`${todo_list.children[1].getAttribute('id')}`,
+                    id:`${to_do_list.children[1].getAttribute('id')}`,
                     method : `del`
                 }),
             })
@@ -142,10 +142,10 @@ const add_formalevents_list = (todo_list)=>{
 
     })
     can_mov_bt.addEventListener(`mouseover`,()=>{
-        can_mov_bt.closest(`.do_list`).setAttribute(`draggable`,`true`)
+        can_mov_bt.closest(`.to_do_list`).setAttribute(`draggable`,`true`)
     })
     can_mov_bt.addEventListener(`mouseout`,()=>{
-        can_mov_bt.closest(`.do_list`).setAttribute(`draggable`,`false`)
+        can_mov_bt.closest(`.to_do_list`).setAttribute(`draggable`,`false`)
     })
     list_txt.addEventListener(`dragstart`,(e)=>{
         e.preventDefault();
@@ -153,16 +153,16 @@ const add_formalevents_list = (todo_list)=>{
     list_txt.addEventListener(`dragend`,(e)=>{
         e.preventDefault()
     })
-    todo_list.addEventListener(`dragstart`,(e)=>{
-        draggedElement = e.target.closest(`.do_list`);
+    to_do_list.addEventListener(`dragstart`,(e)=>{
+        draggedElement = e.target.closest(`.to_do_list`);
         e.dataTransfer.effectAllowed = 'move';
         e.dataTransfer.setData('text/plain', draggedElement.children[3].firstChild.innerHTML);
         draggedElement.classList.add('dragging');
     })
 
-    todo_list.addEventListener(`dragover`, (e)=>{
+    to_do_list.addEventListener(`dragover`, (e)=>{
             e.preventDefault();
-            const dropTarget = e.target.closest('.do_list');
+            const dropTarget = e.target.closest('.to_do_list');
             if (dropTarget) {
                 const rect = dropTarget.getBoundingClientRect();
                 const isAbove = e.clientY < rect.top + rect.height / 2;
@@ -183,15 +183,15 @@ const add_formalevents_list = (todo_list)=>{
                 }
             }
     })
-    todo_list.addEventListener(`dragleave`,(e)=>{
-        const dropTarget = e.target.closest('.do_list');
+    to_do_list.addEventListener(`dragleave`,(e)=>{
+        const dropTarget = e.target.closest('.to_do_list');
         dropTarget.classList.remove('drag-over-up', 'drag-over-down');
         if(dropTarget.previousElementSibling)
         dropTarget.previousElementSibling.classList.remove('drag-over-up', 'drag-over-down');
     })
-    todo_list.addEventListener(`drop`,(e)=>{
+    to_do_list.addEventListener(`drop`,(e)=>{
         e.preventDefault();
-        const dropTarget = e.target.closest('.do_list');
+        const dropTarget = e.target.closest('.to_do_list');
 
             if (dropTarget && draggedElement !== dropTarget) {
                 // Create a new list item
@@ -208,7 +208,7 @@ const add_formalevents_list = (todo_list)=>{
                     add_formalevents_list(newItem);
                 }
                 draggedElement.remove();
-                console.log(Array.from(todo_list_element.childNodes).indexOf(newItem))
+                console.log(Array.from(to_do_list_box.childNodes).indexOf(newItem))
                 console.log(newItem.children[1].getAttribute('id'))
                 fetch(`/list/${user_id}/${page_num}`,{
                     method: 'PATCH',
@@ -217,7 +217,7 @@ const add_formalevents_list = (todo_list)=>{
                     },body: JSON.stringify({ 
                         id:`${newItem.children[1].getAttribute('id')}`,
                         method : `chage_order`,
-                        index: Array.from(todo_list_element.childNodes).indexOf(newItem)
+                        index: Array.from(to_do_list_box.childNodes).indexOf(newItem)
                     }),
                 })
                 if(newItem.previousElementSibling)
@@ -229,18 +229,18 @@ const add_formalevents_list = (todo_list)=>{
             draggedElement.classList.remove('dragging', 'drag-over-up', 'drag-over-down');
             draggedElement = null;
     })
-    todo_list.addEventListener('mouseenter', () => {
+    to_do_list.addEventListener('mouseenter', () => {
         if(!list_txt.classList.contains(`writen`)){
-            const can_mov = todo_list.firstChild;
-            const del_btn = todo_list.lastChild;
+            const can_mov = to_do_list.firstChild;
+            const del_btn = to_do_list.lastChild;
             del_btn.classList.remove('inv');
             can_mov.classList.remove('inv');
         }
     });
 
-    todo_list.addEventListener('mouseleave', () => {
-        const can_mov = todo_list.firstChild;
-        const del_btn = todo_list.lastChild;
+    to_do_list.addEventListener('mouseleave', () => {
+        const can_mov = to_do_list.firstChild;
+        const del_btn = to_do_list.lastChild;
         del_btn.classList.add('inv');
         can_mov.classList.add('inv');
     });
@@ -263,8 +263,8 @@ const add_formalevents_list = (todo_list)=>{
 }
 
 function list_form(isCheck=false, inText=``, ch_id = generateRandomString()){
-    const new_todo_list = document.createElement('li');
-    new_todo_list.setAttribute(`class`,`do_list`)
+    const new_to_do_list = document.createElement('li');
+    new_to_do_list.setAttribute(`class`,`to_do_list`)
     const can_mov_bt = document.createElement(`div`)
     can_mov_bt.classList.add(`can_mov_bt`,`inv`);//0
     const ch_button = document.createElement(`input`);//1
@@ -282,7 +282,7 @@ function list_form(isCheck=false, inText=``, ch_id = generateRandomString()){
     ch_button.checked=isCheck;
     const del_btn = document.createElement(`div`);//4
     del_btn.classList.add(`del_btn`,`inv`)
-    new_todo_list.append(can_mov_bt, ch_button, ch_button_label, list_txt,del_btn)
+    new_to_do_list.append(can_mov_bt, ch_button, ch_button_label, list_txt,del_btn)
 
-    return new_todo_list;
+    return new_to_do_list;
 }
