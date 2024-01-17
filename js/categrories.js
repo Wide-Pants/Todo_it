@@ -1,5 +1,6 @@
 const categories = document.getElementById(`to_do_catgories`)
 const main_contents_zone = document.getElementById(`main_contents_zone`)
+const main_homepage = document.getElementById(`main_homepage`)
 let info_array
 
 async function load_categories(){
@@ -54,24 +55,26 @@ function add_categories(imogi, name, num_of_list){
     new_category.append(cat_imogi,cat_name,cat_num_of_list)
     categories.append(new_category)
     new_category.addEventListener(`click`, (e)=>{
-        main_contents_zone.classList.remove(`not_thispage`)
         const clicked_cat = e.target.closest(`.cat_list`)
         const cat_idx = Array.from(categories.children).indexOf(clicked_cat)
+        console.log(page_num)
         if(page_num!=cat_idx){
         to_do_list_box.innerHTML = ``;
+        main_contents_zone.style.display = `grid`;
+        main_homepage.style.display = `none`;
         load_list(cat_idx)
         chage_page(imogi,name,cat_idx)
-        history.pushState({ catIdx: cat_idx },`투두잇 | ${imogi+' '+name}`,`?cat/${cat_idx}`)
+        history.pushState({ catIdx: cat_idx },`투두잇 | ${imogi+' '+name}`,`/cat/${cat_idx}`)
         }
     })
     new_category.addEventListener("mouseover", ()=>{
-        element.style.backgroundColor="rgb(151, 151, 151)";
-        element.childNodes[1].style.color="white"
-        element.childNodes[2].style.color="white"
+        new_category.style.backgroundColor="rgb(151, 151, 151)";
+        new_category.childNodes[1].style.color="white"
+        new_category.childNodes[2].style.color="white"
     })
     new_category.addEventListener("mouseout", ()=>{
-        element.style.backgroundColor="#eeeeee";
-        element.childNodes[1].style.color="black"
-        element.childNodes[2].style.color="black"
+        new_category.style.backgroundColor="#eeeeee";
+        new_category.childNodes[1].style.color="black"
+        new_category.childNodes[2].style.color="black"
     })
 }

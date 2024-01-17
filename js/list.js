@@ -89,6 +89,8 @@ const make_list = () => {
     to_do_list_box.append(new_to_do_list);
     writing_list_txt(new_to_do_list.children[3])
     add_formalevents_list(new_to_do_list)
+    const old_cnt = Number(categories.children[page_num].lastChild.innerText)
+    categories.children[page_num].lastChild.innerText = old_cnt+1;
 }
 
 add_list_btn.addEventListener('click', () => make_list());
@@ -114,6 +116,8 @@ const add_formalevents_list = (to_do_list)=>{
     del_btn.addEventListener(`click`,()=>{
         if(window.confirm(`정말 삭제하시겠습니까?`)){
             to_do_list.remove()
+            const old_cnt = Number(categories.children[page_num].lastChild.innerText)
+            categories.children[page_num].lastChild.innerText = old_cnt-1;
             console.log(`${to_do_list.children[1].getAttribute('id')}`);
             fetch(`/list/${user_id}/${page_num}`,{
                 method: 'PATCH',

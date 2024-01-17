@@ -3,67 +3,36 @@
     {
       "category_imogi": "❤",
       "category_name": "언젠가는 반드시",
-      "list": [
-        {
-          "id": "GKEAP",
-          "checked": true,
-          "list_txt": "나는 빡빡이다1"
-        },
-        {
-          "id": "GKEA13P",
-          "checked": true,
-          "list_txt": "나는 빡빡이다3"
-        },
-        {
-          "id": "pNa4E",
-          "checked": true,
-          "list_txt": "615"
-        },
-        {
-          "id": "GK42EAP",
-          "checked": true,
-          "list_txt": "나는 빡빡이다2"
-        },
-        {
-          "id": "GKEA21P",
-          "checked": true,
-          "list_txt": "나는 빡빡이다4"
-        },
-        {
-          "id": "UZhzg",
-          "checked": true,
-          "list_txt": "ㅂㅂㅂㅂ"
-        },
-        {
-          "id": "oHrvF",
-          "checked": false,
-          "list_txt": "ㅈㄷㅂㅈㄷ"
-        }
-      ]
+      "list": []
     },
     {
       "category_imogi": "🤳",
       "category_name": "오늘의 리스트",
       "list": [
         {
-          "id": "pNa4E",
+          "id": "f4PEw",
           "checked": false,
-          "list_txt": "615"
+          "list_txt": ""
         },
         {
-          "id": "GK42EAP",
+          "id": "U1n3C",
           "checked": false,
-          "list_txt": "나는 빡빡이다2"
+          "list_txt": ""
         },
         {
-          "id": "GKEA21P",
-          "checked": true,
-          "list_txt": "나는 빡빡이다4"
+          "id": "dpXcE",
+          "checked": false,
+          "list_txt": ""
         },
         {
-          "id": "HbSiU",
-          "checked": true,
-          "list_txt": "가나다라바밥ㅈㅂㅈㄷㅈㅂㄷ"
+          "id": "yXhrZ",
+          "checked": false,
+          "list_txt": "5"
+        },
+        {
+          "id": "IiMK4",
+          "checked": false,
+          "list_txt": ""
         }
       ]
     },
@@ -72,47 +41,16 @@
       "category_name": "밀린 일",
       "list": [
         {
-          "id": "pNa4E",
+          "id": "RLtJK",
           "checked": false,
-          "list_txt": "615"
-        },
-        {
-          "id": "GK42EAP",
-          "checked": false,
-          "list_txt": "나는 빡빡이다2"
+          "list_txt": "ㅈ"
         }
       ]
     },
     {
       "category_imogi": "👀",
       "category_name": "매일 매일 열심히",
-      "list": [
-        {
-          "id": "GKEAP",
-          "checked": true,
-          "list_txt": "나는 빡빡이다1"
-        },
-        {
-          "id": "GKEA13P",
-          "checked": true,
-          "list_txt": "나는 빡빡이다3"
-        },
-        {
-          "id": "pNa4E",
-          "checked": false,
-          "list_txt": "615"
-        },
-        {
-          "id": "GK42EAP",
-          "checked": false,
-          "list_txt": "나는 빡빡이다2"
-        },
-        {
-          "id": "GKEA21P",
-          "checked": true,
-          "list_txt": "나는 빡빡이다4"
-        }
-      ]
+      "list": []
     }
   ]
 }

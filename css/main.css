@@ -29,8 +29,7 @@ body{
     height: 100%;
     position: relative;
     display: none;
-    width: calc(100% - 250px);
-    margin-left: 250px;
+    width: 100%;
     grid-template-columns: calc(50% - 280px) 560px auto;
     grid-template-rows: 35px 35px 75px auto auto;
     overflow-y: scroll;

@@ -13,6 +13,16 @@ user_name.forEach(element => {
     element.innerText = localStorage.getItem(`user_id`)
 });
 
+user_name_menu.addEventListener(`click`, ()=>{
+    if(page_num!=-1){
+        page_num = -1
+        to_do_list_box.innerHTML = ``;
+        main_contents_zone.style.display = `none`;
+        main_homepage.style.display = `grid`;
+        history.pushState(null,null,`/home`)
+    }
+})
+
 hide_btn.addEventListener("mouseover",()=>{
     hide_btn.style.color="white";
     hide_btn.style.backgroundColor="#eeeeee";
