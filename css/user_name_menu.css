@@ -7,6 +7,7 @@
     padding-right: 5px;
     margin-right: 10px;
     border-radius: 5px;
+    min-height: 20px;
 }
 
 #Identifier{
@@ -49,4 +50,5 @@
     height: 30px;
     border-radius: 10px;
     cursor: pointer;
+    z-index: 1;
 }

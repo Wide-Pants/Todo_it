@@ -18,26 +18,32 @@ body{
     display: flex;
     flex-direction: column;
     align-items: start;
-    position: static;
     height: 100%;    
     background-color: #EEEEEE;
+    position: relative;
+    width: 250px;
 }
 #main_contents_zone{
+    flex: 1;
     font-family: 'inter';
     height: 100%;
-    position: static;
+    position: relative;
     display: none;
-    width: 100%;
+    width: calc(100% - 250px);
+    margin-left: 250px;
     grid-template-columns: calc(50% - 280px) 560px auto;
     grid-template-rows: 35px 35px 75px auto auto;
+    overflow-y: scroll;
 }
 
 #main_homepage{
+    flex: 1;
     font-family: 'inter';
     height: 100%;
-    position: static;
+    position: relative;
     display: grid;
     width: 100%;
     grid-template-columns: calc(50% - 280px) 280px 280px auto;
-    grid-template-rows: 35px 35px 25px 30px 120px 120px auto;
+    grid-template-rows: 35px 35px 25px 30px 140px 140px 20px 350px;
+    overflow-y: scroll;
 }

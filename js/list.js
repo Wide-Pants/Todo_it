@@ -37,19 +37,6 @@ function generateRandomString() {
     return randomString;
 }
 
-to_do_list.forEach(element => {
-    element.addEventListener("mouseover", ()=>{
-        element.style.backgroundColor="rgb(151, 151, 151)";
-        element.childNodes[1].style.color="white"
-        element.childNodes[2].style.color="white"
-    })
-    element.addEventListener("mouseout", ()=>{
-        element.style.backgroundColor="#eeeeee";
-        element.childNodes[1].style.color="black"
-        element.childNodes[2].style.color="black"
-    }) 
-});
-
 function writing_list_txt(list_txt) {
     // 새로운 input 엘리먼트 생성
     const origin_list = list_txt.closest(`.to_do_list`);

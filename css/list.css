@@ -25,7 +25,7 @@
 input[type=text]{
     width: 490px;
 }
-.to_do_list .list_txt{
+#to_do_list_box .to_do_list .list_txt{
     display: inline-block;
     margin-left: 5px;
     cursor: pointer;
@@ -33,7 +33,7 @@ input[type=text]{
     padding: 0px 2.5px;
     max-width: 490px;
 }
-.to_do_list .list_txt *{
+#to_do_list_box .to_do_list .list_txt *{
     font-family: inter;
     white-space: normal;
     display: inline-block;

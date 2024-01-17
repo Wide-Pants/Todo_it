@@ -15,7 +15,6 @@
     font-weight: 400;
     line-height: normal;
 }
-
 #first_cat_box{
     grid-row: 5;
     grid-column: 2;
@@ -34,6 +33,9 @@
 }
 
 .main_cat_name{
+    display: inline-block;
+    margin-left: 10px;
+    margin-top: 5px;
     border-radius: 5px;
     padding: 1px 2px;
     border: 1px solid #000;
@@ -58,4 +60,43 @@
     background-color: #6D6D6D;
     color: #ffffff;
     border-color: #6D6D6D;
+}
+.main_to_do_box{
+    margin-top: 5px;
+}
+
+.main_to_do_box .to_do_list .list_txt{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    max-width: 200px;
+    display: inline-block;
+    margin-left: 5px;
+    cursor: pointer;
+    min-height: 24.5px;
+    padding: 0px 2.5px;    
+}
+
+#wish{
+    grid-row: 8;
+    grid-column: 2;
+}
+#friends_score{
+    grid-row: 8;
+    grid-column: 3;
+    background-color: #eeeeee;
+}
+
+#wish_info{
+    margin-left: 5px;
+    margin-top: 5px;
+    font-size: 24px;
+    font-weight: 400;
+}
+#f_s_info{
+    margin-left: 10px;
+    margin-top: 15px;
+    font-size: 24px;
+    font-weight: 600;
 }

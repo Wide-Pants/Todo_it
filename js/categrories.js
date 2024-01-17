@@ -64,4 +64,14 @@ function add_categories(imogi, name, num_of_list){
         history.pushState({ catIdx: cat_idx },`투두잇 | ${imogi+' '+name}`,`?cat/${cat_idx}`)
         }
     })
+    new_category.addEventListener("mouseover", ()=>{
+        element.style.backgroundColor="rgb(151, 151, 151)";
+        element.childNodes[1].style.color="white"
+        element.childNodes[2].style.color="white"
+    })
+    new_category.addEventListener("mouseout", ()=>{
+        element.style.backgroundColor="#eeeeee";
+        element.childNodes[1].style.color="black"
+        element.childNodes[2].style.color="black"
+    })
 }
