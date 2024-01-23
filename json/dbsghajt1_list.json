@@ -50,7 +50,18 @@
     {
       "category_imogi": "👀",
       "category_name": "매일 매일 열심히",
-      "list": []
+      "list": [
+        {
+          "id": "zfbmo",
+          "checked": false,
+          "list_txt": "ㅂㅂㅂㅂ"
+        },
+        {
+          "id": "Zu1B6",
+          "checked": false,
+          "list_txt": "ㄷㅈㅂㄷㅂㅈ"
+        }
+      ]
     }
   ]
 }

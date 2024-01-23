@@ -13,10 +13,6 @@ app.get(`/`,(req,res)=>{
     return res.redirect(`/login`)
 })
 
-app.get('/home', (req, res) => {
-    const filePath = path.join(__dirname, '/main.html'); // 경로 수정
-    res.sendFile(filePath);
-});
 app.get(`/info`,(req,res)=>{
     const filePath = path.join(__dirname, 'json', `info.json`);
     const info_json = fs.readFileSync(filePath);
@@ -100,6 +96,11 @@ app.post('/get-user-info', (req, res) => {
     }else{
         res.status(500).send('아이디 없음!');
     }
+});
+
+app.get('*', (req, res) => {
+    const filePath = path.join(__dirname, `/`,'/main.html'); // 경로 수정
+    res.sendFile(filePath);
 });
 
 app.listen(port, () => {
