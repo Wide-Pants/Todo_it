@@ -2,16 +2,16 @@ const route = ()=>{
     const url = new URL(window.location.href);
     console.log(url.pathname)
     const page_length = 5
-    if(url.pathname==`/cat`&& url.search.substring(0, 2)==`?=`){
+    if(url.pathname==`/cat`&& url.search.substring(0, 6)==`?page=`){
 
-        const page_num = parseInt(url.search.substring(2), 10);
+        const page_num = parseInt(url.search.substring(6), 10);
 
         if (!isNaN(page_num)) {
             if(page_num<page_length){
                 to_do_list_box.innerHTML = '';
                 main_contents_zone.style.display = 'grid';
                 main_homepage.style.display = 'none';
-                load_list(page_num);
+                chage_page(page_num);
                 return;
             }
         }
@@ -19,6 +19,4 @@ const route = ()=>{
         return; // 오류가 발생하면 함수 종료
     }
 }
-window.addEventListener('hashchange', route);
-window.addEventListener('DOMContentLoaded', route);
 window.addEventListener(`popstate`,route)

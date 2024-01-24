@@ -26,18 +26,20 @@ async function load_categories(){
                 add_categories(element.category_imogi,element.category_name,element.list.length);
             }
         })
-    }).catch((error) => {console.error('Error fetching user info:', error)});
+    }).catch((error) => {console.error('Error fetching user info:', error)}).then(route)
 }
 
 load_categories()
 
-function chage_page(imogi, name, cat_idx){
+function chage_page(cat_idx){
     const page_imogi = document.getElementById(`main_imogi`);
     const page_name = document.getElementById(`title`);
     const cat_info = document.getElementById(`info_text`)
-    page_imogi.innerText = imogi;
-    page_name.innerText = name;
+    console.log(categories.children[cat_idx].children)
+    page_imogi.innerText = categories.children[cat_idx].children[0].innerText;
+    page_name.innerText = categories.children[cat_idx].children[1].innerText;
     cat_info.innerHTML = info_array[cat_idx]
+    load_list(cat_idx);
 }
 
 function add_categories(imogi, name, num_of_list){
@@ -62,9 +64,8 @@ function add_categories(imogi, name, num_of_list){
         to_do_list_box.innerHTML = ``;
         main_contents_zone.style.display = `grid`;
         main_homepage.style.display = `none`;
-        load_list(cat_idx)
-        chage_page(imogi,name,cat_idx)
-        history.pushState({ catIdx: cat_idx },`투두잇 | ${imogi+' '+name}`,`/cat/${cat_idx}`)
+        chage_page(cat_idx)
+        history.pushState({ catIdx: cat_idx },`투두잇 | ${imogi+' '+name}`,`/cat?page=${cat_idx}`)
         }
     })
     new_category.addEventListener("mouseover", ()=>{
