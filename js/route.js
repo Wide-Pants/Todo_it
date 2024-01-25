@@ -16,7 +16,16 @@ const route = ()=>{
             }
         }
         console.error('Invalid page number format'); // 또는 다른 오류 처리 방법 사용
-        return; // 오류가 발생하면 함수 종료
+        window.alert(`올바르지 않은 접근입니다.`);
+        window.history.pushState(null,null,`/home`);
+        route;
+    }else if(url.pathname==`/home`){
+        //홈접속 했을때 라우팅할 것들
+    }else{
+        console.error('Invalid page number format'); // 또는 다른 오류 처리 방법 사용
+        window.alert(`올바르지 않은 접근입니다.`);
+        window.history.pushState(null,null,`/home`);
+        route;
     }
 }
 window.addEventListener(`popstate`,route)
