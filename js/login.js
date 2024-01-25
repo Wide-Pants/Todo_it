@@ -18,6 +18,7 @@ async function login(){
         window.localStorage.setItem(`user_name`, userInfo.name);
         window.location.href = `/home`;
         login_warn.style.opacity= 0;
+        window.localStorage.setItem(`login`, true);
     })
     .catch((error) => {console.error('Error fetching user info:', error);
     login_warn.innerHTML="존재하지 않는 아이디 입니다.";

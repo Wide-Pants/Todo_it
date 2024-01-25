@@ -23,7 +23,6 @@ async function load_list(num){
         })
     }).catch((error) => {console.error('Error fetching user info:', error)});
 }
-cnt = 0
 
 function generateRandomString() {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

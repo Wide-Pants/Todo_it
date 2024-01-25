@@ -4,6 +4,7 @@ const main_homepage = document.getElementById(`main_homepage`)
 let info_array
 
 async function load_categories(){
+    categories.innerHTML = ``
     await fetch(`/info`,{
         method: 'GET',
         headers: {
@@ -26,10 +27,8 @@ async function load_categories(){
                 add_categories(element.category_imogi,element.category_name,element.list.length);
             }
         })
-    }).catch((error) => {console.error('Error fetching user info:', error)}).then(route)
+    }).catch((error) => {console.error('Error fetching user info:', error)})
 }
-
-load_categories()
 
 function chage_page(cat_idx){
     const page_imogi = document.getElementById(`main_imogi`);

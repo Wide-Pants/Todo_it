@@ -10,7 +10,7 @@ const user_name = document.querySelectorAll(`.user_name`)
 friends_modal.style.left = `${LeftMenu.offsetWidth+10}px`;
 id.innerText = localStorage.getItem(`user_id`)
 user_name.forEach(element => {
-    element.innerText = localStorage.getItem(`user_id`)
+    element.innerText = localStorage.getItem(`user_name`)
 });
 
 user_name_menu.addEventListener(`click`, ()=>{

@@ -9,9 +9,6 @@ const port = 3000;
 app.use(express.static(path.join(__dirname, '/')));
 app.use(express.json());
 
-app.get(`/`,(req,res)=>{
-    return res.redirect(`/login`)
-})
 
 app.get(`/info`,(req,res)=>{
     const filePath = path.join(__dirname, 'json', `info.json`);

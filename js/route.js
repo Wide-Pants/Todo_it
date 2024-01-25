@@ -1,11 +1,11 @@
-const route = ()=>{
+const route = async ()=>{
+    const login = !(!localStorage.getItem('login'))
     const url = new URL(window.location.href);
-    console.log(url.pathname)
+    console.log(url.pathname);
     const page_length = 5
+    await load_categories()
     if(url.pathname==`/cat`&& url.search.substring(0, 6)==`?page=`){
-
         const page_num = parseInt(url.search.substring(6), 10);
-
         if (!isNaN(page_num)) {
             if(page_num<page_length){
                 to_do_list_box.innerHTML = '';
@@ -19,9 +19,17 @@ const route = ()=>{
         window.alert(`올바르지 않은 접근입니다.`);
         window.history.pushState(null,null,`/home`);
         route;
+    }else if(url.pathname==`/`){
+        if(login) {window.history.pushState(null,null,`/home`); route;}
+        else {window.location.href = `/login`;}
     }else if(url.pathname==`/home`){
-        //홈접속 했을때 라우팅할 것들
-    }else{
+        page_num = -1
+        to_do_list_box.innerHTML = ``;
+        main_contents_zone.style.display = `none`;
+        main_homepage.style.display = `grid`;
+        console.log(`home loading complete`)
+    }
+    else{
         console.error('Invalid page number format'); // 또는 다른 오류 처리 방법 사용
         window.alert(`올바르지 않은 접근입니다.`);
         window.history.pushState(null,null,`/home`);
@@ -29,3 +37,4 @@ const route = ()=>{
     }
 }
 window.addEventListener(`popstate`,route)
+window.addEventListener(`DOMContentLoaded`, route)
