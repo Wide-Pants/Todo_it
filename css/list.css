@@ -53,12 +53,11 @@ input[type=text]{
     cursor: move;
 }
 .del_btn{
-    vertical-align: center;
     display: inline-block;
     width: 10px;
-    vertical-align: baseline;
 	height: 10px;
     margin-right: 2px;
+    margin-left: 3px;
     background-color: #666666;
     cursor: pointer;
 }

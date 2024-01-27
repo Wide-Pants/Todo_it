@@ -28,14 +28,14 @@ body{
     font-family: 'inter';
     height: 100%;
     position: relative;
-    display: none;
+    display: grid;
     width: 100%;
     grid-template-columns: calc(50% - 280px) 560px auto;
     grid-template-rows: 35px 35px 75px auto auto;
     overflow-y: scroll;
 }
 
-#main_homepage{
+#home_container{
     flex: 1;
     font-family: 'inter';
     height: 100%;

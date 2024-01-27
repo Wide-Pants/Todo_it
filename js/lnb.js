@@ -7,19 +7,19 @@ const friends_modal = document.getElementById(`friends_modal`)
 const friend_btn = document.getElementById(`friend_btn`)
 const user_name = document.querySelectorAll(`.user_name`)
 
-friends_modal.style.left = `${LeftMenu.offsetWidth+10}px`;
+friends_modal.style.left = `${LeftMenu.offsetWidth+10}px`; //lnb 자유변형 염두한 width 적용
+
 id.innerText = localStorage.getItem(`user_id`)
+
 user_name.forEach(element => {
-    element.innerText = localStorage.getItem(`user_name`)
+    element.innerText = localStorage.getItem(`user_name`)// 유저 이름 들어가느 항목에 적용
 });
 
-user_name_menu.addEventListener(`click`, ()=>{
-    if(page_num!=-1){
+user_name_menu.addEventListener(`click`, (e)=>{
+    if(page_num!=-1&&e.target!=hide_btn){
         page_num = -1
-        to_do_list_box.innerHTML = ``;
-        main_contents_zone.style.display = `none`;
-        main_homepage.style.display = `grid`;
         history.pushState(null,null,`/home`)
+        route()
     }
 })
 
@@ -27,6 +27,7 @@ hide_btn.addEventListener("mouseover",()=>{
     hide_btn.style.color="white";
     hide_btn.style.backgroundColor="#eeeeee";
 })
+
 hide_btn.addEventListener("mouseout",()=>{
     hide_btn.style.color="black";
     hide_btn.style.backgroundColor="rgb(151, 151, 151)";

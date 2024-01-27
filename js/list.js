@@ -1,13 +1,11 @@
-const add_list_btn = document.getElementById(`add_list_btn`);
-const to_do_list_box = document.getElementById(`to_do_list_box`);
 const to_do_list = document.querySelectorAll('.to_do_list');
-
 const user_id = window.localStorage.getItem(`user_id`);
 let page_num 
 
-async function load_list(num){
+function load_list(num){
     page_num = num
-    await fetch(`/list/${user_id}/${num}`,{
+    const to_do_list_box = document.getElementById(`to_do_list_box`);
+    fetch(`/list/${user_id}/${num}`,{
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -17,14 +15,14 @@ async function load_list(num){
         targetObject.forEach(element =>{
             if(element){
                 const load_list = list_form(element.checked,element.list_txt,element.id);
-                add_formalevents_list(load_list);
                 to_do_list_box.append(load_list);
             }
-        })
+        });
+        add_list_btn_evnet();
     }).catch((error) => {console.error('Error fetching user info:', error)});
 }
 
-function generateRandomString() {
+function generateRandomString() {//ID값랜덤 생성기
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let randomString = '';
   
@@ -83,24 +81,28 @@ function writing_list_txt(list_txt) {
     });
 }
 
-const make_list = () => {
-    const new_to_do_list = list_form();
-    to_do_list_box.append(new_to_do_list);
-    writing_list_txt(new_to_do_list.children[3])
-    add_formalevents_list(new_to_do_list)
-    const old_cnt = Number(categories.children[page_num].lastChild.innerText)
-    categories.children[page_num].lastChild.innerText = old_cnt+1;
+const add_list_btn_evnet = ()=>{
+    const add_list_btn = document.getElementById(`add_list_btn`);
+    const categories = document.getElementById(`to_do_catgories`)
+    const to_do_list_box = document.getElementById(`to_do_list_box`);
+    add_list_btn.addEventListener('click', () => {
+        const new_to_do_list = list_form();
+        to_do_list_box.append(new_to_do_list);
+        writing_list_txt(new_to_do_list.children[3]);
+        const old_cnt = Number(categories.children[page_num].lastChild.innerText)
+        categories.children[page_num].lastChild.innerText = old_cnt+1;
+    });
 }
 
-add_list_btn.addEventListener('click', () => make_list());
 
-const add_formalevents_list = (to_do_list)=>{
+function add_formalevents_list(to_do_list){
     const can_mov_bt = to_do_list.children[0];
-    const list_checked = to_do_list.children[1];
+    const ch_button = to_do_list.children[1];
     const list_txt = to_do_list.children[3];
     const del_btn = to_do_list.children[4];
-
-    list_checked.addEventListener(`change`, ()=>{
+    const to_do_list_box = document.getElementById(`to_do_list_box`);
+    const categories = document.getElementById(`to_do_catgories`)
+    ch_button.addEventListener(`change`, ()=>{
         fetch(`/list/${user_id}/${page_num}`,{
             method: 'PATCH',
             headers: {
@@ -108,9 +110,9 @@ const add_formalevents_list = (to_do_list)=>{
             },body: JSON.stringify({ 
                 id:`${to_do_list.children[1].getAttribute('id')}`,
                 method : `checked_toggle`,
-                check_boolean: list_checked.checked
+                check_boolean: ch_button.checked
             }),
-        }).then(res => console.log(res))
+        }).then(res => console.log(res)).catch(err=>console.err(`${err}: ERROR Occur`))
     })
     del_btn.addEventListener(`click`,()=>{
         if(window.confirm(`정말 삭제하시겠습니까?`)){
@@ -184,7 +186,8 @@ const add_formalevents_list = (to_do_list)=>{
 
             if (dropTarget && draggedElement !== dropTarget) {
                 // Create a new list item
-                const newItem = list_form(draggedElement.children[1].checked,e.dataTransfer.getData('text/plain'),draggedElement.children[1].getAttribute(`id`))
+                console.log(draggedElement.children)
+                const newItem = list_form(draggedElement.children[1].checked, e.dataTransfer.getData('text/plain'), draggedElement.children[1].getAttribute(`id`))
                 
                 const rect = dropTarget.getBoundingClientRect();
                 const isAbove = e.clientY < rect.top + rect.height / 2;
@@ -252,6 +255,7 @@ const add_formalevents_list = (to_do_list)=>{
 }
 
 function list_form(isCheck=false, inText=``, ch_id = generateRandomString()){
+    // 투두리스트 객체 반환
     const new_to_do_list = document.createElement('li');
     new_to_do_list.setAttribute(`class`,`to_do_list`)
     const can_mov_bt = document.createElement(`div`)
@@ -272,6 +276,6 @@ function list_form(isCheck=false, inText=``, ch_id = generateRandomString()){
     const del_btn = document.createElement(`div`);//4
     del_btn.classList.add(`del_btn`,`inv`)
     new_to_do_list.append(can_mov_bt, ch_button, ch_button_label, list_txt,del_btn)
-
+    add_formalevents_list(new_to_do_list);
     return new_to_do_list;
 }
