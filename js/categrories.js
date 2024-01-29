@@ -22,7 +22,7 @@ async function load_categories(){
     .then(targetObject => {
         targetObject.forEach(element =>{
             if(element){//가져온 카테고리를 통해 엘레먼트 생성
-                add_categories(element.category_imogi,element.category_name,element.list.length);
+                add_categories(element.category_imogi,element.category_name,element.data_count);
             }
         })
     }).catch((error) => {console.error('Error fetching user info:', error)})

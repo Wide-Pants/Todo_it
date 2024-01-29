@@ -21,10 +21,9 @@ async function login() {
         if (!userInfo) {
             throw new Error('User information not available');
         }
-        console.log(userInfo);
         // Save to localStorage
-        window.localStorage.setItem(`user_id`, userInfo.id);
-        window.localStorage.setItem(`user_name`, userInfo.name);
+        window.localStorage.setItem(`user_id`, userInfo.user_id);
+        window.localStorage.setItem(`user_name`, userInfo.user_name);
         window.localStorage.setItem(`login`, true);
         // Redirect to home page
         window.location.href = `/home`;

@@ -14,12 +14,12 @@ function load_list(num){
     .then(targetObject => {
         targetObject.forEach(element =>{
             if(element){
-                const load_list = list_form(element.checked,element.list_txt,element.id);
+                const load_list = list_form(element.checked,element.list_txt,element.list_id);
                 to_do_list_box.append(load_list);
             }
         });
-        add_list_btn_evnet();
     }).catch((error) => {console.error('Error fetching user info:', error)});
+    add_list_btn_evnet();
 }
 
 function generateRandomString() {//ID값랜덤 생성기
