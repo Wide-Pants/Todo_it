@@ -2,6 +2,7 @@ const express = require('express');
 const mysql = require('mysql2');
 const path = require('path'); // path 모듈 추가
 const fs = require('fs');
+require("dotenv").config();
 
 const app = express();
 const port = 3000;
@@ -10,8 +11,12 @@ const port = 3000;
 app.use(express.static(path.join(__dirname, '/')));
 app.use(express.json());
 
-const connection = mysql.createConnection({
-    
+const connection = mysql.createConnection({//.env파일 생성후 값 넣기 따옴표 및 등호 사용해야됨 콜론 아님 백틱 안됨
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PW,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT
 });
 
 connection.connect((err) => {
