@@ -14,9 +14,9 @@ app.use(express.json());
 const connection = mysql.createConnection({//.env파일 생성후 값 넣기 따옴표 및 등호 사용해야됨 콜론 아님 백틱 안됨
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
-    password: process.env.DB_PW,
-    database: process.env.DB_NAME,
-    port: process.env.DB_PORT
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
+    port: 3306
 });
 
 connection.connect((err) => {
@@ -35,8 +35,8 @@ app.get(`/info`,(req,res)=>{
     res.send(targetObject)
 })
 app.get(`/list/:id`,(req,res)=>{
-    const userId = req.params.id; // 클라이언트에서 전달한 사용자 ID
-    const query = 'SELECT category_table.category_id, category_table.category_name, category_table.category_imogi,COUNT(list_table.list_id) AS data_count FROM category_table LEFT JOIN list_table ON category_table.category_id = list_table.list_relationship GROUP BY category_table.category_id, category_table.category_name ORDER BY category_table.category_id;'
+    const user_Id = req.params.id; // 클라이언트에서 전달한 사용자 ID
+    const query = `SELECT category_table.category_id, category_table.category_name, category_table.category_imogi,COUNT(list_table.list_id) AS data_count FROM category_table LEFT JOIN list_table ON category_table.category_id = list_table.list_relationship AND list_table.writer='${user_Id}' GROUP BY category_table.category_id, category_table.category_name ORDER BY category_table.category_id;`
 
     connection.query(query, (err, results) => {
       if (err) {
@@ -52,8 +52,9 @@ app.get(`/list/:id`,(req,res)=>{
     });
 })
 app.get(`/list/:id/:num_of_cat`,(req,res)=>{
-    const list_id = req.params.num_of_cat; // 클라이언트에서 전달한 사용자 ID
-    const query = 'SELECT * FROM list_table WHERE list_relationship = ?';
+    const list_id = req.params.num_of_cat;
+    const user_Id = req.params.id;
+    const query = `SELECT * FROM list_table WHERE writer = '${user_Id}' AND list_relationship = ?`;
 
     connection.query(query, [list_id], (err, results) => {
       if (err) {
@@ -69,7 +70,8 @@ app.get(`/list/:id/:num_of_cat`,(req,res)=>{
 
 app.post(`/list/:id/:num_of_cat`, (req, res) => {
     const list_id = req.body.id;
-    const query = `SELECT * FROM list_table WHERE list_relationship = ${req.params.num_of_cat} AND list_id = ?`;
+    const user_Id = req.params.id;
+    const query = `SELECT * FROM list_table WHERE writer = '${user_Id}' AND list_relationship = ${req.params.num_of_cat} AND list_id = ?`;
     let finalquery;
   
     // 첫 번째 쿼리 실행
@@ -85,8 +87,8 @@ app.post(`/list/:id/:num_of_cat`, (req, res) => {
             WHERE list_id = '${req.body.id}';`;
         } else {
           // 해당 카테고리에 해당하는 리스트가 없는 경우 삽입 쿼리 생성
-          finalquery = `INSERT INTO list_table (list_id, list_txt, list_relationship)
-            VALUES ('${req.body.new_ID}', '${req.body.list_txt}', ${req.params.num_of_cat});`;
+          finalquery = `INSERT INTO list_table (list_id, writer, list_txt, list_relationship)
+            VALUES ('${req.body.new_ID}','${user_Id}', '${req.body.list_txt}', ${req.params.num_of_cat});`;
         }
   
         // 생성된 쿼리 실행
@@ -105,14 +107,15 @@ app.post(`/list/:id/:num_of_cat`, (req, res) => {
   
 
 app.patch(`/list/:id/:num_of_cat`,(req,res)=>{
-    const category_id = req.params.num_of_cat
-
+    const category_id = req.params.num_of_cat;
+    const user_Id = req.params.id;
+    
     console.log(req.body.method== `del`)
     let query;
     if(req.body.method == `del`){
-        query = `DELETE FROM list_table WHERE list_id = '${req.body.id}';`
+        query = `DELETE FROM list_table WHERE writer = '${user_Id}' AND list_id = '${req.body.id}';`
     }else if(req.body.method == `checked_toggle`){
-        query = `UPDATE list_table SET checked = NOT checked WHERE list_id = '${req.body.id}';`
+        query = `UPDATE list_table SET checked = NOT checked WHERE writer = '${user_Id}' AND list_id = '${req.body.id}';`
         console.log(req.body.id)
     }else if(req.body.method == `chage_order`){
         

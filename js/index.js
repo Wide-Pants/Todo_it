@@ -43,7 +43,7 @@ function home_render(){
             targetObject.forEach(element =>{
                 console.log(`load list${hash}\n`,`/list/${user_id}/${hash}`, cnt)
                 if(element&&cnt<2&&!element.checked){
-                    const load_list = list_form(element.checked,element.list_txt,element.id);
+                    const load_list = list_form(element.checked,element.list_txt,element.list_id,hash);
                     mainToDoBoxUl.append(load_list);
                     cnt++;
                 }

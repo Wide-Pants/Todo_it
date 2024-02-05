@@ -95,7 +95,7 @@ const add_list_btn_evnet = ()=>{
 }
 
 
-function add_formalevents_list(to_do_list){
+function add_formalevents_list(to_do_list, page_num){
     const can_mov_bt = to_do_list.children[0];
     const ch_button = to_do_list.children[1];
     const list_txt = to_do_list.children[3];
@@ -254,7 +254,7 @@ function add_formalevents_list(to_do_list){
     });
 }
 
-function list_form(isCheck=false, inText=``, ch_id = generateRandomString()){
+function list_form(isCheck=false, inText=``, ch_id = generateRandomString(), page = page_num){
     // 투두리스트 객체 반환
     const new_to_do_list = document.createElement('li');
     new_to_do_list.setAttribute(`class`,`to_do_list`)
@@ -276,6 +276,6 @@ function list_form(isCheck=false, inText=``, ch_id = generateRandomString()){
     const del_btn = document.createElement(`div`);//4
     del_btn.classList.add(`del_btn`,`inv`)
     new_to_do_list.append(can_mov_bt, ch_button, ch_button_label, list_txt,del_btn)
-    add_formalevents_list(new_to_do_list);
+    add_formalevents_list(new_to_do_list, page);
     return new_to_do_list;
 }
