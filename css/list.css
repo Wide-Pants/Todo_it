@@ -1,7 +1,13 @@
 
-#main_contents_box{
+.no_cal #main_contents_box{
     grid-column: 2;
     grid-row: 4;
+    margin-left: 10px;
+    margin-top: 15px;
+}
+.add_calender #main_contents_box{
+    grid-column: 2;
+    grid-row: 5;
     margin-left: 10px;
     margin-top: 15px;
 }
@@ -91,4 +97,49 @@ input[type=text]{
 
 .drag-over-down {
     border-bottom-color: blue;
+}
+
+.add_calender #calender_zone{
+    grid-column: 2;
+    grid-row: 4;
+    align-self: center;
+    justify-self: center;
+}
+#dec_date{
+    cursor: pointer;
+    text-align: center;
+    line-height: 26px;
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    background-color: #666666;
+}
+#inc_date{
+    cursor: pointer;
+    text-align: center;
+    line-height: 26px;
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    background-color: #666666;
+}
+#date{
+    cursor: pointer;
+    align-items: center;
+    text-align: center;
+    line-height: 26px;
+    display: inline-block;
+    width: 100px;
+    height: 26px;
+}
+#calender_modal{
+    display: block;
+    position: absolute;
+    transform: translate(-50px,0);
+    width: 252px;
+    height: 200px;
+    margin-top: 4px;
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid #999999;
 }

@@ -98,6 +98,47 @@ function cat_render(){
     
     const mainContentsZone = document.createElement("div");
     mainContentsZone.setAttribute("id", "main_contents_zone");
+    const url = new URL(window.location.href);
+
+    if(parseInt(url.search.substring(6), 10)==2){
+        mainContentsZone.classList.add(`add_calender`)
+        const calender_zone = document.createElement("div");
+        calender_zone.setAttribute("id", "calender_zone");
+        const calender_btn = document.createElement("div");
+
+        const date_display = document.createElement("div");
+        date_display.setAttribute("id", "date");
+        const date_dec_btn = document.createElement("div");
+        date_dec_btn.setAttribute("id", "dec_date");
+        date_dec_btn.innerText = `<<`
+        const date_inc_btn = document.createElement("div");
+        date_inc_btn.setAttribute("id", "inc_date");
+        date_inc_btn.innerText = `>>`
+
+        
+        const calender_modal = document.createElement("div");
+        calender_modal.setAttribute("id", "calender_modal");
+        
+        calender_btn.append(date_dec_btn,date_display,date_inc_btn);
+        calender_zone.append(calender_btn);
+        calender_zone.append(calender_modal);
+        mainContentsZone.append(calender_zone);
+
+        let now = new Date();
+        cal_update(date_display)
+
+        
+
+        date_dec_btn.addEventListener(`click`, ()=>cal_update(date_display, new Date(now.setDate(now.getDate() - 1))))
+        date_inc_btn.addEventListener(`click`, ()=>cal_update(date_display, new Date(now.setDate(now.getDate() + 1))))
+        
+
+        date_display.addEventListener(`click`,()=>{
+            calender_modal.classList.toggle(`inv`)
+        })
+    }
+    else
+        mainContentsZone.classList.add(`no_cal`)
 
     const mainImogi = document.createElement("div");
     mainImogi.setAttribute("id", "main_imogi");

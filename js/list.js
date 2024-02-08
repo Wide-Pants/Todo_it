@@ -24,7 +24,7 @@ function load_list(num){
 
 function generateRandomString() {//ID값랜덤 생성기
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let randomString = '';
+    let randomString = '_';
   
     for (let i = 0; i < 5; i++) {
       const randomIndex = Math.floor(Math.random() * characters.length);
