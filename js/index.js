@@ -90,7 +90,7 @@ function home_render(){
 
     return true;
 }
-
+let now = new Date();
 function cat_render(){
     if(!document.body.children[2].getAttribute(`type`)&&document.body.children[2].getAttribute(`type`)!="text/javascript"){
         document.body.children[2].remove();
@@ -107,7 +107,7 @@ function cat_render(){
         const calender_btn = document.createElement("div");
 
         const date_display = document.createElement("div");
-        date_display.setAttribute("id", "date");
+        date_display.setAttribute("id", "date_display");
         const date_dec_btn = document.createElement("div");
         date_dec_btn.setAttribute("id", "dec_date");
         date_dec_btn.innerText = `<<`
@@ -118,20 +118,17 @@ function cat_render(){
         
         const calender_modal = document.createElement("div");
         calender_modal.setAttribute("id", "calender_modal");
-        
+        calender_modal.classList.add(`inv`)
+
         calender_btn.append(date_dec_btn,date_display,date_inc_btn);
         calender_zone.append(calender_btn);
         calender_zone.append(calender_modal);
         mainContentsZone.append(calender_zone);
 
-        let now = new Date();
-        cal_update(date_display)
+        cal_update(calender_zone)
 
-        
-
-        date_dec_btn.addEventListener(`click`, ()=>cal_update(date_display, new Date(now.setDate(now.getDate() - 1))))
-        date_inc_btn.addEventListener(`click`, ()=>cal_update(date_display, new Date(now.setDate(now.getDate() + 1))))
-        
+        date_dec_btn.addEventListener(`click`, ()=>cal_update(calender_zone, new Date(now.setDate(now.getDate() - 1))))
+        date_inc_btn.addEventListener(`click`, ()=>cal_update(calender_zone, new Date(now.setDate(now.getDate() + 1))))
 
         date_display.addEventListener(`click`,()=>{
             calender_modal.classList.toggle(`inv`)

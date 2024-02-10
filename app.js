@@ -51,19 +51,18 @@ app.get(`/list/:id`,(req,res)=>{
       }
     });
 })
-app.get(`/list/:id/:num_of_cat`,(req,res)=>{
+app.get(`/list/:id/:num_of_cat/:date`,(req,res)=>{
     const list_id = req.params.num_of_cat;
     const user_Id = req.params.id;
-    const query = `SELECT * FROM list_table WHERE writer = '${user_Id}' AND list_relationship = ?`;
+    const date = req.params.date;
 
+    const query = `SELECT * FROM list_table WHERE writer = '${user_Id}' AND writen_at = '${date}' AND list_relationship = ?`;
     connection.query(query, [list_id], (err, results) => {
       if (err) {
         console.error('MySQL 쿼리 에러:', err);
         res.status(500).send('Internal Server Error');
       } else {
-        if (results.length>0) {
             res.send(results);
-        }
       }
     });
 })
@@ -87,8 +86,8 @@ app.post(`/list/:id/:num_of_cat`, (req, res) => {
             WHERE list_id = '${req.body.id}';`;
         } else {
           // 해당 카테고리에 해당하는 리스트가 없는 경우 삽입 쿼리 생성
-          finalquery = `INSERT INTO list_table (list_id, writer, list_txt, list_relationship)
-            VALUES ('${req.body.new_ID}','${user_Id}', '${req.body.list_txt}', ${req.params.num_of_cat});`;
+          finalquery = `INSERT INTO list_table (list_id, writer, list_txt, list_relationship,order_num)
+            VALUES ('${req.body.new_ID}','${user_Id}', '${req.body.list_txt}', ${req.params.num_of_cat}, 0);`;
         }
   
         // 생성된 쿼리 실행
@@ -113,9 +112,9 @@ app.patch(`/list/:id/:num_of_cat`,(req,res)=>{
     console.log(req.body.method== `del`)
     let query;
     if(req.body.method == `del`){
-        query = `DELETE FROM list_table WHERE writer = '${user_Id}' AND list_id = '${req.body.id}';`
+        query = `DELETE FROM list_table WHERE AND list_id = '${req.body.id}';`
     }else if(req.body.method == `checked_toggle`){
-        query = `UPDATE list_table SET checked = NOT checked WHERE writer = '${user_Id}' AND list_id = '${req.body.id}';`
+        query = `UPDATE list_table SET checked = NOT checked WHERE list_id = '${req.body.id}';`
         console.log(req.body.id)
     }else if(req.body.method == `chage_order`){
         

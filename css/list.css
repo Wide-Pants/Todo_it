@@ -112,7 +112,7 @@ input[type=text]{
     display: inline-block;
     width: 26px;
     height: 26px;
-    background-color: #666666;
+    background-color: #cccccc;
 }
 #inc_date{
     cursor: pointer;
@@ -121,9 +121,9 @@ input[type=text]{
     display: inline-block;
     width: 26px;
     height: 26px;
-    background-color: #666666;
+    background-color: #cccccc;
 }
-#date{
+#date_display{
     cursor: pointer;
     align-items: center;
     text-align: center;
@@ -137,9 +137,49 @@ input[type=text]{
     position: absolute;
     transform: translate(-50px,0);
     width: 252px;
-    height: 200px;
     margin-top: 4px;
     background-color: white;
     border-radius: 5px;
     border: 1px solid #999999;
+}
+.week{
+    margin-bottom: 5px;
+}
+.date{
+    display: block;
+    cursor: pointer;
+    text-align: end;
+    width: 26.5px;
+    height: 30px;
+    padding-right: 6.5px;
+    font-size: 14px;
+}
+.other_month_date{
+    color: #cccccc;
+}
+#days{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 5px;
+}
+#days *{
+    font-size: 12px;    
+    text-align: end;
+    width: 26.5px;
+    padding-right: 6.5px;
+    font-size: 11px;
+}
+.week{
+    display: flex;
+    justify-content: space-around;
+}
+.today{
+    background-color: #ffc1c1;
+    border-radius: 2px;
+}
+#calender_year_month{
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    margin-bottom: 10px
 }

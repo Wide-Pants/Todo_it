@@ -5,7 +5,9 @@ let page_num
 function load_list(num){
     page_num = num
     const to_do_list_box = document.getElementById(`to_do_list_box`);
-    fetch(`/list/${user_id}/${num}`,{
+    to_do_list_box.innerHTML = ``;
+    console.log(`/list/${user_id}/${num}/${now.getFullYear()+"-"+(now.getMonth()+1 ? `0`+ (now.getMonth()+1) : (now.getMonth()+1)) + '-' + (10>now.getDate() ? `0`+now.getDate() : now.getDate())}`)
+    fetch(`/list/${user_id}/${num}/${now.getFullYear()+"-"+(now.getMonth()+1 ? `0`+ (now.getMonth()+1) : (now.getMonth()+1)) + '-' + (10>now.getDate() ? `0`+now.getDate() : now.getDate())}`,{
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
