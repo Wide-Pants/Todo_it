@@ -6,6 +6,7 @@ require("dotenv").config();
 
 const app = express();
 const port = 3000;
+const DATA_VIEW_Query = `SELECT * FROM list_table WHERE writer='ajtwoddl1236' AND list_relationship=2 ORDER BY order_num`
 
 // 정적 파일 제공할 디렉토리 설정
 app.use(express.static(path.join(__dirname, '/')));
@@ -34,19 +35,19 @@ app.get(`/info`,(req,res)=>{
     const targetObject = parsed_inf.info;
     res.send(targetObject)
 })
+
 app.get(`/list/:id`,(req,res)=>{
     const user_ID = req.params.id; // 클라이언트에서 전달한 사용자 ID
     const query = `SELECT category_table.category_id, category_table.category_name, category_table.category_imogi,COUNT(list_table.list_id) AS data_count
-              FROM category_table LEFT JOIN list_table ON category_table.category_id = list_table.list_relationship AND list_table.writer='${user_ID}'
+              FROM category_table LEFT JOIN list_table ON category_table.category_id = list_table.list_relationship AND list_table.writer= ?
               GROUP BY category_table.category_id, category_table.category_name ORDER BY category_table.category_id;`
 
-    connection.query(query, (err, results) => {
+    connection.query(query, [user_ID], (err, results) => {
       if (err) {
         console.error('MySQL 쿼리 에러:', err);
         res.status(500).send('Internal Server Error');
       } else {
         if (results.length > 0) {
-            console.log(results);
             res.send(results);
         } else {
             res.status(500).send('Internal Server Error');
@@ -54,28 +55,32 @@ app.get(`/list/:id`,(req,res)=>{
       }
     });
 })
-app.get(`/list/:id/:num_of_cat/:date`,(req,res)=>{
-    const list_id = req.params.num_of_cat;
-    const user_Id = req.params.id;
-    const date = req.params.date;
 
-    const query = `SELECT * FROM list_table WHERE writer = '${user_Id}' AND writen_at = '${date}' AND list_relationship = ?`;
-    connection.query(query, [list_id], (err, results) => {
+app.get(`/list/:id/:num_of_cat/:date`, (req, res) => {
+  const list_id = req.params.num_of_cat;
+  const user_Id = req.params.id;
+  const date = req.params.date;
+
+  // ORDER BY writen_at을 추가한 쿼리
+  const query = `SELECT * FROM list_table WHERE writer = ? AND writen_at = ? AND list_relationship = ? ORDER BY order_num`;
+  
+  connection.query(query, [user_Id, date, list_id], (err, results) => {
       if (err) {
-        console.error('MySQL 쿼리 에러:', err);
-        res.status(500).send('Internal Server Error');
+          console.error('MySQL 쿼리 에러:', err);
+          res.status(500).send('Internal Server Error');
       } else {
-            res.send(results);
+          res.send(results);
       }
-    });
-})
+  });
+});
+
 
 app.get(`/list/:id/:num_of_cat`,(req,res)=>{
   const list_id = req.params.num_of_cat;
   const user_Id = req.params.id;
 
-  const query = `SELECT * FROM list_table WHERE writer = '${user_Id}' AND list_relationship = ?`;
-  connection.query(query, [list_id], (err, results) => {
+  const query = `SELECT * FROM list_table WHERE writer = ? AND list_relationship = ?`;
+  connection.query(query, [user_Id, list_id], (err, results) => {
     if (err) {
       console.error('MySQL 쿼리 에러:', err);
       res.status(500).send('Internal Server Error');
@@ -91,12 +96,14 @@ app.post(`/list/:id/:num_of_cat`, (req, res) => {
     const utcMonth = now.getUTCMonth() + 1;
     const utcDate = now.getUTCDate();
     const list_id = req.body.id;
+    const list_order_num = req.body.list_order_num;
     const user_Id = req.params.id;
-    const query = `SELECT * FROM list_table WHERE writer = '${user_Id}' AND list_relationship = ${req.params.num_of_cat} AND list_id = ?`;
+    const cat_num = req.params.num_of_cat;
+    const query = `SELECT * FROM list_table WHERE writer = ? AND list_relationship = ? AND list_id = ?`;
     let finalquery;
   
     // 첫 번째 쿼리 실행
-    connection.query(query, [list_id], (err, results) => {
+    connection.query(query, [user_Id, cat_num, list_id], (err, results) => {
       if (err) {
         console.error('MySQL 쿼리 에러:', err);
         res.status(500).send('뭔에러고');
@@ -108,8 +115,8 @@ app.post(`/list/:id/:num_of_cat`, (req, res) => {
             WHERE list_id = '${req.body.id}';`;
         } else {
           // 해당 카테고리에 해당하는 리스트가 없는 경우 삽입 쿼리 생성
-          finalquery = `INSERT INTO list_table (list_id, writer, list_txt, list_relationship,order_num, writen_at)
-            VALUES ('${req.body.new_ID}','${user_Id}', '${req.body.list_txt}', ${req.params.num_of_cat}, 0, '${utcYear+"-"+(utcMonth ? `0`+ utcMonth : utcMonth) + '-' + (10>utcDate ? `0`+utcDate : utcDate)}');`;
+          finalquery = `INSERT INTO list_table (list_id, writer, list_txt, list_relationship, order_num, writen_at)
+            VALUES ('${req.body.new_ID}','${user_Id}', '${req.body.list_txt}', ${req.params.num_of_cat}, ${list_order_num}, '${utcYear+"-"+(utcMonth ? `0`+ utcMonth : utcMonth) + '-' + (10>utcDate ? `0`+utcDate : utcDate)}');`;
         }
   
         // 생성된 쿼리 실행
@@ -128,26 +135,70 @@ app.post(`/list/:id/:num_of_cat`, (req, res) => {
   
 
 app.patch(`/list/:id/:num_of_cat`,(req,res)=>{
-    const category_id = req.params.num_of_cat;
+    const category_id = Number(req.params.num_of_cat);
     const user_Id = req.params.id;
     const list_id = req.body.id;
-    
-    console.log(req.body.method== `del`)
+    const list_order_num = req.body.index;
+    let params=[list_id];
+    let params2;
     let query;
+    let query2;
+     
     if(req.body.method == `del`){
         query = `DELETE FROM list_table WHERE list_id = ?;`
     }else if(req.body.method == `checked_toggle`){
         query = `UPDATE list_table SET checked = NOT checked WHERE list_id = ?;`
-        console.log(req.body.id)
     }else if(req.body.method == `chage_order`){
-        
+        query =`UPDATE list_table AS lt1
+        JOIN (
+            SELECT writen_at
+            FROM list_table
+            WHERE list_id = ?
+        ) AS subquery
+        ON lt1.writen_at = subquery.writen_at
+        SET lt1.order_num = lt1.order_num + 1
+        WHERE lt1.order_num >= ?
+        AND lt1.list_relationship = ?;`;
+
+        query2 = `UPDATE list_table
+        SET order_num = ?
+        WHERE list_id = ?;`
+
+        params = [list_id,list_order_num,category_id];      
+        params2 =[list_order_num,list_id];
     }
-    console.log(query)
-    connection.query(query, [list_id], (err,results) => {
+    console.log(params)
+    connection.query(query, params, (err,results) => {
         if (err) {
           console.error('MySQL 쿼리 에러:', err);
           res.status(500).send('Internal Server Error');
-        }else{res.send(`ok`)}
+        }else if(query2){
+          connection.query(query2, params2, (err,results) => {
+            if (err) {
+              console.error('MySQL 쿼리 에러:', err);
+              res.status(500).send('Internal Server Error');
+            }else
+            connection.query(DATA_VIEW_Query, (err, results) => {
+              if (err) {
+                  console.error('MySQL 쿼리 에러:', err);
+                  res.status(500).send('Internal Server Error');
+              } else {
+                  console.log(results);
+                  res.send(`ok`)
+              }
+            })
+        })
+        }else{
+          connection.query(DATA_VIEW_Query, (err, results) => {
+          if (err) {
+              console.error('MySQL 쿼리 에러:', err);
+              res.status(500).send('Internal Server Error');
+          } else {
+              console.log(results);
+              res.send(`ok`)
+          }
+        })
+        }
     });
 })
 
@@ -167,7 +218,6 @@ app.post('/get-user-info', (req, res) => {
         res.status(500).send('Internal Server Error');
       } else {
         if (results.length > 0) {
-            console.log(JSON.stringify(results[0]));
             res.send(JSON.stringify(results[0]));
         } else {
             res.status(500).send('Internal Server Error');

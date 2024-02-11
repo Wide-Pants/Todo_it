@@ -56,6 +56,7 @@ function generateRandomString() {//ID값랜덤 생성기
 
 function writing_list_txt(list_txt) {
     // 새로운 input 엘리먼트 생성
+    const to_do_list_box = document.getElementById(`to_do_list_box`);
     const origin_list = list_txt.closest(`.to_do_list`);
     const input_list_txt = document.createElement('input');
     list_txt.classList.add(`writen`);
@@ -87,7 +88,7 @@ function writing_list_txt(list_txt) {
             headers: {
                 'Content-Type': 'application/json',
             },body: JSON.stringify({ 
-                id:`${origin_list.children[1].getAttribute('id')}`, checked: origin_list.children[1].checked, list_txt: newText, new_ID: generateRandomString()
+                id:`${origin_list.children[1].getAttribute('id')}`, checked: origin_list.children[1].checked, list_txt: newText, new_ID: generateRandomString(), list_order_num: (Array.from(to_do_list_box.childNodes).indexOf(origin_list))
             }),
         })
     });
@@ -229,7 +230,7 @@ function add_formalevents_list(to_do_list, page_num){
                     },body: JSON.stringify({ 
                         id:`${newItem.children[1].getAttribute('id')}`,
                         method : `chage_order`,
-                        index: Array.from(to_do_list_box.childNodes).indexOf(newItem)
+                        index: (Array.from(to_do_list_box.childNodes).indexOf(newItem))
                     }),
                 })
                 if(newItem.previousElementSibling)
