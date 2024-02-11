@@ -35,8 +35,10 @@ app.get(`/info`,(req,res)=>{
     res.send(targetObject)
 })
 app.get(`/list/:id`,(req,res)=>{
-    const user_Id = req.params.id; // 클라이언트에서 전달한 사용자 ID
-    const query = `SELECT category_table.category_id, category_table.category_name, category_table.category_imogi,COUNT(list_table.list_id) AS data_count FROM category_table LEFT JOIN list_table ON category_table.category_id = list_table.list_relationship AND list_table.writer='${user_Id}' GROUP BY category_table.category_id, category_table.category_name ORDER BY category_table.category_id;`
+    const user_ID = req.params.id; // 클라이언트에서 전달한 사용자 ID
+    const query = `SELECT category_table.category_id, category_table.category_name, category_table.category_imogi,COUNT(list_table.list_id) AS data_count
+              FROM category_table LEFT JOIN list_table ON category_table.category_id = list_table.list_relationship AND list_table.writer='${user_ID}'
+              GROUP BY category_table.category_id, category_table.category_name ORDER BY category_table.category_id;`
 
     connection.query(query, (err, results) => {
       if (err) {
@@ -44,6 +46,7 @@ app.get(`/list/:id`,(req,res)=>{
         res.status(500).send('Internal Server Error');
       } else {
         if (results.length > 0) {
+            console.log(results);
             res.send(results);
         } else {
             res.status(500).send('Internal Server Error');
@@ -67,7 +70,26 @@ app.get(`/list/:id/:num_of_cat/:date`,(req,res)=>{
     });
 })
 
+app.get(`/list/:id/:num_of_cat`,(req,res)=>{
+  const list_id = req.params.num_of_cat;
+  const user_Id = req.params.id;
+
+  const query = `SELECT * FROM list_table WHERE writer = '${user_Id}' AND list_relationship = ?`;
+  connection.query(query, [list_id], (err, results) => {
+    if (err) {
+      console.error('MySQL 쿼리 에러:', err);
+      res.status(500).send('Internal Server Error');
+    } else {
+          res.send(results);
+    }
+  });
+})
+
 app.post(`/list/:id/:num_of_cat`, (req, res) => {
+    const now = new Date();
+    const utcYear = now.getUTCFullYear();
+    const utcMonth = now.getUTCMonth() + 1;
+    const utcDate = now.getUTCDate();
     const list_id = req.body.id;
     const user_Id = req.params.id;
     const query = `SELECT * FROM list_table WHERE writer = '${user_Id}' AND list_relationship = ${req.params.num_of_cat} AND list_id = ?`;
@@ -86,8 +108,8 @@ app.post(`/list/:id/:num_of_cat`, (req, res) => {
             WHERE list_id = '${req.body.id}';`;
         } else {
           // 해당 카테고리에 해당하는 리스트가 없는 경우 삽입 쿼리 생성
-          finalquery = `INSERT INTO list_table (list_id, writer, list_txt, list_relationship,order_num)
-            VALUES ('${req.body.new_ID}','${user_Id}', '${req.body.list_txt}', ${req.params.num_of_cat}, 0);`;
+          finalquery = `INSERT INTO list_table (list_id, writer, list_txt, list_relationship,order_num, writen_at)
+            VALUES ('${req.body.new_ID}','${user_Id}', '${req.body.list_txt}', ${req.params.num_of_cat}, 0, '${utcYear+"-"+(utcMonth ? `0`+ utcMonth : utcMonth) + '-' + (10>utcDate ? `0`+utcDate : utcDate)}');`;
         }
   
         // 생성된 쿼리 실행
@@ -108,19 +130,20 @@ app.post(`/list/:id/:num_of_cat`, (req, res) => {
 app.patch(`/list/:id/:num_of_cat`,(req,res)=>{
     const category_id = req.params.num_of_cat;
     const user_Id = req.params.id;
+    const list_id = req.body.id;
     
     console.log(req.body.method== `del`)
     let query;
     if(req.body.method == `del`){
-        query = `DELETE FROM list_table WHERE AND list_id = '${req.body.id}';`
+        query = `DELETE FROM list_table WHERE list_id = ?;`
     }else if(req.body.method == `checked_toggle`){
-        query = `UPDATE list_table SET checked = NOT checked WHERE list_id = '${req.body.id}';`
+        query = `UPDATE list_table SET checked = NOT checked WHERE list_id = ?;`
         console.log(req.body.id)
     }else if(req.body.method == `chage_order`){
         
     }
     console.log(query)
-    connection.query(query, (err,results) => {
+    connection.query(query, [list_id], (err,results) => {
         if (err) {
           console.error('MySQL 쿼리 에러:', err);
           res.status(500).send('Internal Server Error');

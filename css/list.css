@@ -133,7 +133,6 @@ input[type=text]{
     height: 26px;
 }
 #calender_modal{
-    display: block;
     position: absolute;
     transform: translate(-50px,0);
     width: 252px;
@@ -182,4 +181,10 @@ input[type=text]{
     justify-content: center;
     margin-top: 5px;
     margin-bottom: 10px
+}
+.display_block{
+    display: block;
+}
+.display_none{
+    display: none;
 }

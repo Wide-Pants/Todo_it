@@ -118,7 +118,7 @@ function cat_render(){
         
         const calender_modal = document.createElement("div");
         calender_modal.setAttribute("id", "calender_modal");
-        calender_modal.classList.add(`inv`)
+        calender_modal.classList.add(`display_none`)
 
         calender_btn.append(date_dec_btn,date_display,date_inc_btn);
         calender_zone.append(calender_btn);
@@ -127,11 +127,12 @@ function cat_render(){
 
         cal_update(calender_zone)
 
-        date_dec_btn.addEventListener(`click`, ()=>cal_update(calender_zone, new Date(now.setDate(now.getDate() - 1))))
-        date_inc_btn.addEventListener(`click`, ()=>cal_update(calender_zone, new Date(now.setDate(now.getDate() + 1))))
+        date_dec_btn.addEventListener(`click`, ()=>{cal_update(calender_zone, new Date(now.setDate(now.getDate() - 1)));load_list(2);})
+        date_inc_btn.addEventListener(`click`, ()=>{cal_update(calender_zone, new Date(now.setDate(now.getDate() + 1)));load_list(2);})
 
         date_display.addEventListener(`click`,()=>{
-            calender_modal.classList.toggle(`inv`)
+            calender_modal.classList.toggle(`display_none`)
+            calender_modal.classList.toggle(`display_block`)
         })
     }
     else

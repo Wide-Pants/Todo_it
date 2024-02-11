@@ -7,7 +7,25 @@ function load_list(num){
     const to_do_list_box = document.getElementById(`to_do_list_box`);
     to_do_list_box.innerHTML = ``;
     console.log(`/list/${user_id}/${num}/${now.getFullYear()+"-"+(now.getMonth()+1 ? `0`+ (now.getMonth()+1) : (now.getMonth()+1)) + '-' + (10>now.getDate() ? `0`+now.getDate() : now.getDate())}`)
+    
+    
+    if(num==2)
     fetch(`/list/${user_id}/${num}/${now.getFullYear()+"-"+(now.getMonth()+1 ? `0`+ (now.getMonth()+1) : (now.getMonth()+1)) + '-' + (10>now.getDate() ? `0`+now.getDate() : now.getDate())}`,{
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    }).then(response => response.json())
+    .then(targetObject => {
+        targetObject.forEach(element =>{
+            if(element){
+                const load_list = list_form(element.checked,element.list_txt,element.list_id);
+                to_do_list_box.append(load_list);
+            }
+        });
+    }).catch((error) => {console.error('Error fetching user info:', error)});
+    else
+    fetch(`/list/${user_id}/${num}`,{
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
